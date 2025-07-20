@@ -1,4 +1,3 @@
-baseURL = 'https://zoey-billd.github.io/'
-languageCode = 'zh-CN'
-theme = 'blowfish'
-publishDir = "public"
+baseURL = "https://zoey-billd.github.io/"
+title = "我的博客"
+theme = "blowfish"

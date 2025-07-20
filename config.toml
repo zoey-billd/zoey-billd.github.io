@@ -1,0 +1,4 @@
+﻿baseURL = 'https://zoey-billd.github.io/'
+title = '我的博客'
+theme = 'blowfish'
+publishDir = 'public'
