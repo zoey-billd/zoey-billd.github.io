@@ -1,0 +1,4 @@
+baseURL = 'https://zoey-billd.github.io/'
+languageCode = 'zh-CN'
+theme = 'blowfish'
+publishDir = "public"
