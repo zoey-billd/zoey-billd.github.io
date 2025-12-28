@@ -163,6 +163,24 @@
 
 
 
+  <style>
+    /* 强制背景透明，透出 Canvas */
+    body {
+        background-color: transparent !important;
+        background: transparent !important; 
+        color: #eeeeee; /* 文字改成浅灰，防止看不清 */
+    }
+
+    /* 给文章容器加个半透明黑底，防止文字和流星混在一起 */
+    .wrapper, .container, main, article, .post, .post-content {
+        background-color: rgba(10, 20, 35, 0.85) !important; 
+        padding: 20px;
+        border-radius: 8px;
+    }
+    
+    /* 链接高亮 */
+    a { color: #66ccff !important; }
+  </style>
 
   
   
