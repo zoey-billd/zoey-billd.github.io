@@ -26,7 +26,7 @@
   };
 
   const imageCards = {
-    "PCG Forest Framework": "./assets/pcg/forest-hero.png",
+    "PCG Forest Framework": "./assets/pcg/forest-hero.jpg",
     "Corner Weathering HDA": "./assets/houdini/portfolio/corner-weathering-demo.png",
     "Industrial Ivy Generator": "./assets/houdini/portfolio/ivy-ue5-demo.png"
   };
@@ -157,11 +157,17 @@
   }
 
   const observer = new MutationObserver(() => {
-    refreshCards();
-    cleanCapabilities();
-    rewriteCapabilities();
-    replaceFooterText();
-    replaceModalIvyImage();
+    // 先断开再处理，避免对 DOM 的写入再次触发观察回调导致死循环
+    observer.disconnect();
+    try {
+      refreshCards();
+      cleanCapabilities();
+      rewriteCapabilities();
+      replaceFooterText();
+      replaceModalIvyImage();
+    } finally {
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
   });
   observer.observe(document.body, { childList: true, subtree: true });
 })();
