@@ -121,7 +121,7 @@
     document.querySelectorAll(".footer-title, .footer h2, [class*=footer] h2").forEach((el) => {
       const t = el.textContent?.trim();
       if (t && (t.includes("有合适的岗位") || t.includes("过程记录"))) {
-        el.textContent = "如果有合适的机会或合作 欢迎联系";
+        el.textContent = "欢迎合作与联系";
       }
     });
   }
@@ -171,14 +171,19 @@
   });
   observer.observe(document.body, { childList: true, subtree: true });
 
-  // —— 低调的画作入口：右下角小字，点开才看得到 ——
+  // —— 低调的画作入口：藏在首页 hero 链接行里，点开才看得到 ——
   function initSketch() {
     if (document.querySelector(".sketch-link")) return;
     const btn = document.createElement("button");
     btn.className = "sketch-link";
     btn.setAttribute("aria-label", "sketch");
     btn.textContent = "✏ sketch";
-    document.body.appendChild(btn);
+    const host =
+      document.querySelector(".hero-actions") ||
+      document.querySelector(".hero-links") ||
+      document.querySelector(".hero") ||
+      document.body;
+    host.appendChild(btn);
 
     const modal = document.createElement("div");
     modal.className = "sketch-modal";
