@@ -211,14 +211,75 @@
       work.appendChild(st);
     }
 
-    // 胶带：贴到卡片 / 能力卡上沿
-    document.querySelectorAll(".card, .cap-card").forEach((el) => {
-      if (el.querySelector(".tape")) return;
-      const t = document.createElement("span");
-      t.className = "tape";
-      t.setAttribute("aria-hidden", "true");
-      el.appendChild(t);
+    // 胶带：贴到卡片 / 能力卡上沿（含交叉胶带）
+    document.querySelectorAll(".card, .cap-card").forEach((el, idx) => {
+      if (!el.querySelector(".tape")) {
+        const t = document.createElement("span");
+        t.className = "tape";
+        t.setAttribute("aria-hidden", "true");
+        el.appendChild(t);
+      }
+      if (idx % 2 === 0 && !el.querySelector(".tape-x")) {
+        const tx = document.createElement("span");
+        tx.className = "tape tape-x";
+        tx.setAttribute("aria-hidden", "true");
+        el.appendChild(tx);
+      }
     });
+
+    // CMYK 印刷色标条
+    const cmykHero = document.querySelector(".hero-inner");
+    if (cmykHero && !cmykHero.querySelector(".cmyk-bar")) {
+      const bar = document.createElement("div");
+      bar.className = "cmyk-bar";
+      bar.setAttribute("aria-hidden", "true");
+      ["cmyk-c", "cmyk-m", "cmyk-y", "cmyk-k"].forEach((c) => {
+        const s = document.createElement("span");
+        s.className = c;
+        bar.appendChild(s);
+      });
+      cmykHero.appendChild(bar);
+    }
+    const footer = document.querySelector(".footer");
+    if (footer && !footer.querySelector(".cmyk-bar")) {
+      const bar = document.createElement("div");
+      bar.className = "cmyk-bar";
+      bar.setAttribute("aria-hidden", "true");
+      ["cmyk-c", "cmyk-m", "cmyk-y", "cmyk-k"].forEach((c) => {
+        const s = document.createElement("span");
+        s.className = c;
+        bar.appendChild(s);
+      });
+      footer.appendChild(bar);
+    }
+
+    // 手写圈注（自动描边动画）
+    function makeScribble(text) {
+      const sc = document.createElement("div");
+      sc.className = "scribble";
+      sc.setAttribute("aria-hidden", "true");
+      const svgNS = "http://www.w3.org/2000/svg";
+      const svg = document.createElementNS(svgNS, "svg");
+      svg.setAttribute("viewBox", "0 0 150 64");
+      const path = document.createElementNS(svgNS, "path");
+      path.setAttribute(
+        "d",
+        "M8 36 C 26 12, 74 8, 100 14 C 122 20, 130 32, 124 40 C 116 50, 62 52, 30 46 C 14 42, 9 38, 8 36 Z"
+      );
+      svg.appendChild(path);
+      const span = document.createElement("span");
+      span.textContent = text;
+      sc.append(svg, span);
+      return sc;
+    }
+    const hero3 = document.querySelector(".hero-inner");
+    if (hero3 && !hero3.querySelector(".scribble")) {
+      hero3.appendChild(makeScribble("PCG OK"));
+    }
+    const work2 = document.querySelector("#work .section-head");
+    if (work2 && !work2.querySelector(".scribble")) {
+      work2.appendChild(makeScribble("all procedural"));
+    }
   }
 
   function init() {
