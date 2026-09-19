@@ -170,4 +170,49 @@
     }
   });
   observer.observe(document.body, { childList: true, subtree: true });
+
+  // —— 低调的画作入口：右下角小字，点开才看得到 ——
+  function initSketch() {
+    if (document.querySelector(".sketch-link")) return;
+    const btn = document.createElement("button");
+    btn.className = "sketch-link";
+    btn.setAttribute("aria-label", "sketch");
+    btn.textContent = "✏ sketch";
+    document.body.appendChild(btn);
+
+    const modal = document.createElement("div");
+    modal.className = "sketch-modal";
+    modal.setAttribute("role", "dialog");
+    modal.setAttribute("aria-hidden", "true");
+    const img = document.createElement("img");
+    img.src = "./assets/art/xiangxiang.jpg";
+    img.alt = "personal sketch";
+    const close = document.createElement("button");
+    close.className = "sketch-close";
+    close.textContent = "✕";
+    modal.append(img, close);
+    document.body.appendChild(modal);
+
+    btn.addEventListener("click", () => {
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+    });
+    close.addEventListener("click", closeSketch);
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeSketch();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal.classList.contains("open")) closeSketch();
+    });
+    function closeSketch() {
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initSketch);
+  } else {
+    initSketch();
+  }
 })();

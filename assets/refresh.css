@@ -516,3 +516,73 @@ body.has-custom-cursor [role="button"] {
 [style*="var(--gold)"] {
   color: var(--accent) !important;
 }
+
+/* ——— 低调画作入口 ——— */
+.sketch-link {
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  z-index: 900;
+  padding: 5px 10px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: rgba(61, 138, 138, 0.55);
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(61, 138, 138, 0.18);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  backdrop-filter: blur(4px);
+}
+.sketch-link:hover {
+  color: #3d8a8a;
+  border-color: rgba(61, 138, 138, 0.45);
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.sketch-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 950;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5vh 4vw;
+  background: rgba(15, 17, 19, 0.72);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  backdrop-filter: blur(6px);
+}
+.sketch-modal.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+.sketch-modal img {
+  max-width: min(860px, 92vw);
+  max-height: 88vh;
+  border-radius: 6px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+.sketch-close {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.sketch-close:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
