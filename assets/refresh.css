@@ -584,3 +584,223 @@ body.has-custom-cursor [role="button"] {
 .sketch-close:hover {
   background: rgba(255, 255, 255, 0.25);
 }
+
+/* ================================================================
+   拼贴层 / COLLAGE SKIN
+   纸张噪点 · 套准标记 · 浮动星尘 · 半调网点 · 胶带与贴纸
+   ================================================================ */
+
+/* —— 全屏颗粒噪点（纸张底噪，位于内容之上、弹窗之下） —— */
+.collage-deco {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+}
+
+.collage-grain {
+  position: absolute;
+  inset: -2%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  mix-blend-mode: multiply;
+  opacity: 0.055;
+  animation: collage-flicker 11s steps(2, end) infinite;
+}
+
+@keyframes collage-flicker {
+  0%, 100% { opacity: 0.05; }
+  50%      { opacity: 0.07; }
+}
+
+/* —— 套准标记（印刷制版四角） —— */
+.reg-mark {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  opacity: 0.55;
+}
+.reg-mark::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+}
+.reg-mark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 46%, var(--ink) 46%, var(--ink) 54%, transparent 54%),
+    linear-gradient(0deg, transparent 46%, var(--ink) 46%, var(--ink) 54%, transparent 54%);
+}
+.reg-tl { top: 14px; left: 14px; }
+.reg-tr { top: 14px; right: 14px; }
+.reg-bl { bottom: 14px; left: 14px; }
+.reg-br { bottom: 14px; right: 14px; }
+
+/* —— 竖向侧边文字（zine 边框） —— */
+.side-text {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--ascii);
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  color: var(--ink);
+  opacity: 0.24;
+  white-space: nowrap;
+}
+.side-left {
+  left: 12px;
+  writing-mode: vertical-rl;
+}
+.side-right {
+  right: 12px;
+  writing-mode: vertical-rl;
+  transform: translateY(-50%) rotate(180deg);
+}
+@media (max-width: 1320px) {
+  .side-text { display: none; }
+}
+
+/* —— 浮动星尘 —— */
+.collage-star {
+  position: absolute;
+  font-family: var(--ascii);
+  line-height: 1;
+  color: var(--ink);
+  opacity: 0.32;
+  animation:
+    collage-star-drift var(--d, 8s) ease-in-out var(--dly, 0s) infinite alternate,
+    collage-star-twinkle 3.2s ease-in-out var(--dly, 0s) infinite;
+}
+.collage-star.gold { color: #d8962f; opacity: 0.55; }
+.collage-star.teal { color: var(--teal); opacity: 0.5; }
+
+@keyframes collage-star-drift {
+  from { transform: translate3d(0, 0, 0) rotate(-8deg); }
+  to   { transform: translate3d(0, -22px, 0) rotate(16deg); }
+}
+@keyframes collage-star-twinkle {
+  0%, 100% { opacity: 0.18; }
+  50%      { opacity: 0.85; }
+}
+
+/* —— 半调网点条带 —— */
+.halftone {
+  position: absolute;
+  height: 18px;
+  width: clamp(140px, 24vw, 260px);
+  pointer-events: none;
+  opacity: 0.5;
+  background: repeating-radial-gradient(
+    circle at 0 50%,
+    rgba(42, 40, 36, 0.28) 0 1.3px,
+    transparent 1.3px 6px
+  );
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+}
+.hero-inner .halftone {
+  left: 4%;
+  bottom: -26px;
+  transform: rotate(-1.2deg);
+}
+.section-head { position: relative; }
+.section-head .halftone {
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%) rotate(1.6deg);
+}
+.section-head .halftone.ht-l { left: 8%; right: auto; transform: translateY(-50%) rotate(-1.6deg); }
+
+/* —— 胶带（贴在卡片上沿） —— */
+.tape {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 76px;
+  height: 22px;
+  transform: translateX(-50%) rotate(-2.4deg);
+  background: linear-gradient(90deg, rgba(224, 214, 178, 0.6), rgba(240, 235, 214, 0.42));
+  border: 1px solid rgba(42, 40, 36, 0.1);
+  border-left-color: rgba(42, 40, 36, 0.05);
+  border-right-color: rgba(42, 40, 36, 0.05);
+  box-shadow: 0 1px 3px rgba(42, 40, 36, 0.1);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 2;
+}
+.card:nth-child(even) .tape,
+.cap-card:nth-child(odd) .tape { transform: translateX(-50%) rotate(2.6deg) scaleX(0.98); }
+
+/* —— 贴纸徽章 —— */
+.sticker {
+  --rot: -5deg;
+  position: absolute;
+  z-index: 3;
+  font-family: var(--ascii);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  padding: 6px 10px 5px;
+  background: var(--paper-sheet);
+  border: 1.6px solid var(--ink);
+  box-shadow: 2.5px 3px 0 rgba(42, 40, 36, 0.14);
+  transform: rotate(var(--rot));
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  user-select: none;
+}
+.sticker:hover {
+  transform: rotate(calc(var(--rot) * 0.4)) translateY(-2px) scale(1.04);
+  box-shadow: 3.5px 5px 0 rgba(42, 40, 36, 0.16);
+}
+.hero-inner .sticker {
+  left: 6%;
+  bottom: 6%;
+  color: var(--ink);
+}
+.sticker-alt {
+  --rot: 3.5deg;
+  color: #3d8a8a;
+  border-color: #3d8a8a;
+}
+.sticker-alt:hover { transform: rotate(calc(var(--rot) * 0.4)) translateY(-2px) scale(1.04); }
+#work .section-head .sticker-alt { right: 2%; top: 8%; }
+@media (max-width: 900px) {
+  .sticker, .halftone { display: none; }
+}
+
+/* —— 卡片悬浮带一点拼贴歪斜 —— */
+.card:hover,
+.card:focus-visible {
+  transform: translateY(-4px) rotate(-0.35deg);
+}
+.card:nth-child(even):hover {
+  transform: translateY(-4px) rotate(0.35deg);
+}
+.cap-card:hover {
+  transform: translateY(-4px) rotate(-0.3deg);
+}
+
+/* —— 入场动效：贴纸弹入 —— */
+@keyframes sticker-pop {
+  0%   { transform: scale(0.6) rotate(calc(var(--rot) - 9deg)); opacity: 0; }
+  70%  { transform: scale(1.06) rotate(var(--rot)); opacity: 1; }
+  100% { transform: scale(1) rotate(var(--rot)); opacity: 1; }
+}
+.hero-inner .sticker {
+  animation: sticker-pop 0.5s ease 0.9s backwards;
+}
+#work .section-head .sticker-alt {
+  animation: sticker-pop 0.5s ease 0.4s backwards;
+}
+
+/* —— 减弱动效偏好 —— */
+@media (prefers-reduced-motion: reduce) {
+  .collage-grain,
+  .collage-star {
+    animation: none;
+  }
+}

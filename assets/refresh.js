@@ -142,12 +142,92 @@
     });
   }
 
+  // —— 拼贴装饰层：噪点 / 套准标记 / 星尘 / 半调条带 / 胶带贴纸 ——
+  function initCollage() {
+    if (document.querySelector(".collage-deco")) return;
+
+    const deco = document.createElement("div");
+    deco.className = "collage-deco";
+
+    const grain = document.createElement("div");
+    grain.className = "collage-grain";
+    deco.appendChild(grain);
+
+    ["tl", "tr", "bl", "br"].forEach((pos) => {
+      const m = document.createElement("div");
+      m.className = "reg-mark reg-" + pos;
+      deco.appendChild(m);
+    });
+
+    const sideL = document.createElement("div");
+    sideL.className = "side-text side-left";
+    sideL.textContent = "ZOEY XIE — TECHNICAL ARTIST · PCG / HOUDINI / UE5";
+    const sideR = document.createElement("div");
+    sideR.className = "side-text side-right";
+    sideR.textContent = "PROCEDURAL ART / HDA / ECOSYSTEM / RUNTIME";
+    deco.append(sideL, sideR);
+
+    const glyphs = ["✦", "✧", "☆", "+", "·", "✦"];
+    for (let i = 0; i < 11; i++) {
+      const st = document.createElement("span");
+      st.className = "collage-star" + (i % 3 === 0 ? " gold" : i % 3 === 1 ? " teal" : "");
+      st.textContent = glyphs[i % glyphs.length];
+      st.style.left = (4 + Math.random() * 92).toFixed(1) + "%";
+      st.style.top = (3 + Math.random() * 90).toFixed(1) + "%";
+      st.style.fontSize = (11 + Math.random() * 10).toFixed(1) + "px";
+      st.style.setProperty("--d", (8 + Math.random() * 6).toFixed(1) + "s");
+      st.style.setProperty("--dly", (-Math.random() * 8).toFixed(1) + "s");
+      deco.appendChild(st);
+    }
+    document.body.appendChild(deco);
+
+    // 半调网点条带：hero 底部 + 各 section 标题旁
+    const hero = document.querySelector(".hero-inner");
+    if (hero && !hero.querySelector(".halftone")) {
+      const h = document.createElement("div");
+      h.className = "halftone";
+      hero.appendChild(h);
+    }
+    document.querySelectorAll(".section-head").forEach((sh, idx) => {
+      if (sh.querySelector(".halftone")) return;
+      const h = document.createElement("div");
+      h.className = "halftone" + (idx % 2 ? " ht-l" : "");
+      sh.appendChild(h);
+    });
+
+    // 贴纸徽章
+    const hero2 = document.querySelector(".hero-inner");
+    if (hero2 && !hero2.querySelector(".sticker")) {
+      const st = document.createElement("div");
+      st.className = "sticker";
+      st.textContent = "✦ PCG / HDA / RUNTIME ✦";
+      hero2.appendChild(st);
+    }
+    const work = document.querySelector("#work .section-head");
+    if (work && !work.querySelector(".sticker")) {
+      const st = document.createElement("div");
+      st.className = "sticker sticker-alt";
+      st.textContent = "EST. 2026 · 4 PROJECTS";
+      work.appendChild(st);
+    }
+
+    // 胶带：贴到卡片 / 能力卡上沿
+    document.querySelectorAll(".card, .cap-card").forEach((el) => {
+      if (el.querySelector(".tape")) return;
+      const t = document.createElement("span");
+      t.className = "tape";
+      t.setAttribute("aria-hidden", "true");
+      el.appendChild(t);
+    });
+  }
+
   function init() {
     refreshCards();
     cleanCapabilities();
     rewriteCapabilities();
     replaceFooterText();
     replaceModalIvyImage();
+    initCollage();
   }
 
   if (document.readyState === "loading") {
@@ -165,6 +245,7 @@
       rewriteCapabilities();
       replaceFooterText();
       replaceModalIvyImage();
+      initCollage();
     } finally {
       observer.observe(document.body, { childList: true, subtree: true });
     }
