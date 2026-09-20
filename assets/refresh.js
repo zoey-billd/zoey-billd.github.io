@@ -280,6 +280,20 @@
     if (work2 && !work2.querySelector(".scribble")) {
       work2.appendChild(makeScribble("all procedural"));
     }
+
+    // ASCII 花体背景水印
+    const heroWm = document.querySelector(".hero-inner");
+    if (heroWm && !heroWm.querySelector(".ascii-watermark")) {
+      const pre = document.createElement("pre");
+      pre.className = "ascii-watermark";
+      pre.setAttribute("aria-hidden", "true");
+      pre.textContent =
+        "▄▀█ █▀█ █░█ █▀█   ▄▀█ █▀▀ █▀█\n" +
+        "█▀█ █▀▄ █░█ █▀▀   █▀█ ██▄ █▀▄\n" +
+        "▀▀▀ ▀░▀ ░▀░ ▀░░   ▀▀▀ ▀▀▀ ▀░▀\n" +
+        "∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿";
+      heroWm.appendChild(pre);
+    }
   }
 
   function init() {
