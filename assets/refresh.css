@@ -930,22 +930,8 @@ body.has-custom-cursor [role="button"] {
 }
 
 /* ================================================================
-   追加组件 · 大号首字母 drop cap + ASCII 花体背景水印
+   追加组件 · ASCII 花体背景水印
    ================================================================ */
-
-/* —— 大号首字母 drop cap（纯视觉，不改 DOM 文字） —— */
-.card-sub::first-letter {
-  float: left;
-  font-family: "Noto Serif SC", "Songti SC", serif;
-  font-size: 2.5em;
-  line-height: 0.86;
-  padding: 0.06em 0.14em 0 0;
-  margin-top: 0.06em;
-  color: var(--ink);
-}
-.card:nth-child(even) .card-sub::first-letter {
-  color: var(--teal);
-}
 
 /* —— ASCII 花体背景水印 —— */
 .ascii-watermark {
