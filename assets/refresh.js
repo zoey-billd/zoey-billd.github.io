@@ -303,6 +303,7 @@
     replaceFooterText();
     replaceModalIvyImage();
     initCollage();
+    injectOpenSource();
   }
 
   if (document.readyState === "loading") {
@@ -321,11 +322,82 @@
       replaceFooterText();
       replaceModalIvyImage();
       initCollage();
+      injectOpenSource();
     } finally {
       observer.observe(document.body, { childList: true, subtree: true });
     }
   });
   observer.observe(document.body, { childList: true, subtree: true });
+
+  // —— Open Source 板块（refresh 层注入；React 端自带 #open-source 后自动让位） ——
+  const ossTools = [
+    {
+      title: "ue-terrain-bridge",
+      text: "一键地形管线:Gaea → Houdini → UE5。高度图处理、权重图生成、Landscape 导入与 PCG 重生成串成一条命令。",
+      tags: "Python · Houdini · UE5 Landscape · PCG",
+      href: "https://github.com/zoey-billd/ue-terrain-bridge",
+    },
+    {
+      title: "mech-bench-demo",
+      text: "Blender 机械验收台:5 套驱动机构、限位约束、BVH 干涉扫描与刚体跌落测试,全部经 bpy 脚本驱动与校验。",
+      tags: "Blender bpy · Rigid Body · Validation",
+      href: "https://github.com/zoey-billd/mech-bench-demo",
+    },
+    {
+      title: "UE Agent Toolchain",
+      text: "LLM 经带闸门的工具层操作 UE 编辑器:命名/缩放/间距/删除保护,ScopedTransaction 整体可回滚,JSONL 全量审计。整理中,即将开源。",
+      tags: "UE5.6 · Ollama · Gates · Rollback",
+      href: "https://github.com/zoey-billd",
+    },
+  ];
+
+  const OSS_GITHUB_ICON =
+    '<svg viewBox="0 0 16 16" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>';
+
+  function injectOpenSource() {
+    // 幂等：React 自带板块（源码仓已加）或已注入过则跳过
+    if (document.getElementById("open-source")) return;
+    const contact = document.querySelector("section#contact, .contact-section");
+    if (!contact || !contact.parentNode) return;
+
+    const section = document.createElement("section");
+    section.className = "section strengths-section";
+    section.id = "open-source";
+    section.innerHTML =
+      '<div class="section-inner">' +
+      '<div class="section-heading compact-heading">' +
+      '<p class="eyebrow">Open Source</p>' +
+      "<h2>把管线上的工具拆出来，开源可用。</h2>" +
+      "</div>" +
+      '<div class="strength-grid">' +
+      ossTools
+        .map(
+          (t) =>
+            '<a class="strength-card oss-card" href="' + t.href + '" target="_blank" rel="noreferrer">' +
+            OSS_GITHUB_ICON +
+            "<h3>" + t.title + "</h3>" +
+            "<p>" + t.text + "</p>" +
+            '<span class="oss-tags">' + t.tags + "</span>" +
+            "</a>",
+        )
+        .join("") +
+      "</div>" +
+      '<div class="skill-ribbon" aria-label="All repositories">' +
+      '<a href="https://github.com/zoey-billd" target="_blank" rel="noreferrer">github.com/zoey-billd · 全部仓库</a>' +
+      "</div>" +
+      "</div>";
+    contact.parentNode.insertBefore(section, contact);
+
+    const nav = document.querySelector(".nav-links");
+    if (nav && !nav.querySelector('a[href="#open-source"]')) {
+      const a = document.createElement("a");
+      a.href = "#open-source";
+      a.textContent = "Open Source";
+      const contactLink = nav.querySelector('a[href="#contact"]');
+      if (contactLink) nav.insertBefore(a, contactLink);
+      else nav.appendChild(a);
+    }
+  }
 
   // —— 低调的画作入口：藏在首页 hero 链接行里，点开才看得到 ——
   function initSketch() {
