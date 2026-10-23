@@ -304,6 +304,7 @@
     replaceModalIvyImage();
     initCollage();
     injectOpenSource();
+    fixResumeLink();
   }
 
   if (document.readyState === "loading") {
@@ -323,6 +324,7 @@
       replaceModalIvyImage();
       initCollage();
       injectOpenSource();
+      fixResumeLink();
     } finally {
       observer.observe(document.body, { childList: true, subtree: true });
     }
@@ -397,6 +399,17 @@
       if (contactLink) nav.insertBefore(a, contactLink);
       else nav.appendChild(a);
     }
+  }
+
+  // —— 简历链接直连 PDF（GitHub blob 页打开慢且不触发下载） ——
+  function fixResumeLink() {
+    document.querySelectorAll('a[href*="Resume_Zoey"]').forEach((a) => {
+      if (a.href.indexOf("raw.githubusercontent") !== -1) return;
+      a.href =
+        "https://raw.githubusercontent.com/zoey-billd/Portfolio/main/Resume_Zoey_UE_TA.pdf";
+      a.target = "_blank";
+      a.rel = "noreferrer";
+    });
   }
 
   // —— 低调的画作入口：藏在首页 hero 链接行里，点开才看得到 ——
