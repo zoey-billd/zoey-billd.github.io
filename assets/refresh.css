@@ -1,12 +1,12 @@
 :root {
-  --paper: #f7f5ef;
-  --paper-sheet: #fffdfa;
-  --paper-deep: #ede9e0;
-  --ink: #2a2824;
+  --paper: #eef4fd;
+  --paper-sheet: #f4f8ff;
+  --paper-deep: #dfe9f6;
+  --ink: #1e3ea6;
   --muted: #6f6b63;
-  --line: rgba(42, 40, 36, 0.1);
-  --line-strong: rgba(42, 40, 36, 0.18);
-  --teal: #3d8a8a;
+  --line: rgba(24, 47, 132, 0.1);
+  --line-strong: rgba(24, 47, 132, 0.18);
+  --teal: #3b62c9;
   --accent: var(--teal);
 
   --ascii: "AsciiOrSerif", "DotGothic16", "Courier Prime", "SFMono-Regular", Consolas, monospace;
@@ -30,8 +30,8 @@
 body {
   background: var(--paper);
   background-image:
-    radial-gradient(circle at 12% 10%, rgba(61, 138, 138, 0.04), transparent 42%),
-    radial-gradient(circle at 88% 90%, rgba(61, 138, 138, 0.04), transparent 42%),
+    radial-gradient(circle at 12% 10%, rgba(64, 108, 220, 0.04), transparent 42%),
+    radial-gradient(circle at 88% 90%, rgba(64, 108, 220, 0.04), transparent 42%),
     linear-gradient(180deg, rgba(255, 253, 248, 0.5), rgba(237, 233, 224, 0.3));
   color: var(--ink);
   font-family: var(--serif);
@@ -111,14 +111,14 @@ body,
   background: var(--paper-sheet);
   border: 1px solid var(--line);
   border-radius: 6px;
-  box-shadow: 0 18px 50px rgba(42, 40, 36, 0.05);
+  box-shadow: 0 18px 50px rgba(24, 47, 132, 0.05);
   transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
 }
 
 .card:hover,
 .card:focus-visible {
   transform: translateY(-4px);
-  box-shadow: 0 28px 70px rgba(42, 40, 36, 0.08);
+  box-shadow: 0 28px 70px rgba(24, 47, 132, 0.08);
   border-color: var(--line-strong);
 }
 
@@ -137,8 +137,8 @@ body,
     0deg,
     var(--paper-deep),
     var(--paper-deep) 24px,
-    #e4e0d6 24px,
-    #e4e0d6 25px
+    #d7e4f8 24px,
+    #d7e4f8 25px
   );
   border-bottom: 1px dashed var(--line);
   padding: 28px 24px;
@@ -322,13 +322,13 @@ body,
   background: var(--paper-sheet);
   color: var(--ink);
   border-color: var(--line-strong);
-  box-shadow: 0 4px 16px rgba(42, 40, 36, 0.05);
+  box-shadow: 0 4px 16px rgba(24, 47, 132, 0.05);
 }
 
 .btn-solid:hover {
   background: var(--paper-deep);
   color: var(--ink);
-  box-shadow: 0 8px 24px rgba(42, 40, 36, 0.08);
+  box-shadow: 0 8px 24px rgba(24, 47, 132, 0.08);
 }
 
 /* modal */
@@ -482,12 +482,12 @@ body.has-custom-cursor [role="button"] {
 .tag,
 .badge,
 .pill {
-  color: #3d8a8a !important;
+  color: #3b62c9 !important;
 }
 
 .hero-eyebrow .dot {
   background: var(--accent) !important;
-  box-shadow: 0 0 0 4px rgba(61, 138, 138, 0.18) !important;
+  box-shadow: 0 0 0 4px rgba(64, 108, 220, 0.18) !important;
 }
 
 .scroll-progress {
@@ -527,16 +527,16 @@ body.has-custom-cursor [role="button"] {
   font-family: var(--mono, monospace);
   font-size: 12px;
   letter-spacing: 0.06em;
-  color: rgba(61, 138, 138, 0.5);
+  color: rgba(64, 108, 220, 0.5);
   background: transparent;
   border: none;
-  border-bottom: 1px dashed rgba(61, 138, 138, 0.3);
+  border-bottom: 1px dashed rgba(64, 108, 220, 0.3);
   cursor: pointer;
   transition: color 0.2s, border-color 0.2s;
 }
 .sketch-link:hover {
-  color: #3d8a8a;
-  border-color: rgba(61, 138, 138, 0.6);
+  color: #3b62c9;
+  border-color: rgba(64, 108, 220, 0.6);
 }
 
 .sketch-modal {
@@ -697,7 +697,7 @@ body.has-custom-cursor [role="button"] {
   opacity: 0.5;
   background: repeating-radial-gradient(
     circle at 0 50%,
-    rgba(42, 40, 36, 0.28) 0 1.3px,
+    rgba(24, 47, 132, 0.28) 0 1.3px,
     transparent 1.3px 6px
   );
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
@@ -725,10 +725,10 @@ body.has-custom-cursor [role="button"] {
   height: 22px;
   transform: translateX(-50%) rotate(-2.4deg);
   background: linear-gradient(90deg, rgba(224, 214, 178, 0.6), rgba(240, 235, 214, 0.42));
-  border: 1px solid rgba(42, 40, 36, 0.1);
-  border-left-color: rgba(42, 40, 36, 0.05);
-  border-right-color: rgba(42, 40, 36, 0.05);
-  box-shadow: 0 1px 3px rgba(42, 40, 36, 0.1);
+  border: 1px solid rgba(24, 47, 132, 0.1);
+  border-left-color: rgba(24, 47, 132, 0.05);
+  border-right-color: rgba(24, 47, 132, 0.05);
+  box-shadow: 0 1px 3px rgba(24, 47, 132, 0.1);
   mix-blend-mode: multiply;
   pointer-events: none;
   z-index: 2;
@@ -747,14 +747,14 @@ body.has-custom-cursor [role="button"] {
   padding: 6px 10px 5px;
   background: var(--paper-sheet);
   border: 1.6px solid var(--ink);
-  box-shadow: 2.5px 3px 0 rgba(42, 40, 36, 0.14);
+  box-shadow: 2.5px 3px 0 rgba(24, 47, 132, 0.14);
   transform: rotate(var(--rot));
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   user-select: none;
 }
 .sticker:hover {
   transform: rotate(calc(var(--rot) * 0.4)) translateY(-2px) scale(1.04);
-  box-shadow: 3.5px 5px 0 rgba(42, 40, 36, 0.16);
+  box-shadow: 3.5px 5px 0 rgba(24, 47, 132, 0.16);
 }
 .hero-inner .sticker {
   left: 6%;
@@ -763,8 +763,8 @@ body.has-custom-cursor [role="button"] {
 }
 .sticker-alt {
   --rot: 3.5deg;
-  color: #3d8a8a;
-  border-color: #3d8a8a;
+  color: #3b62c9;
+  border-color: #3b62c9;
 }
 .sticker-alt:hover { transform: rotate(calc(var(--rot) * 0.4)) translateY(-2px) scale(1.04); }
 #work .section-head .sticker-alt { right: 2%; top: 8%; }
@@ -816,7 +816,7 @@ body.has-custom-cursor [role="button"] {
   border-radius: 3px;
   box-shadow: none;
   clip-path: polygon(0.7% 0.4%, 14% 1.3%, 28% 0.5%, 42% 1.6%, 56% 0.6%, 70% 1.4%, 84% 0.4%, 95% 1.5%, 99.4% 0.8%, 98.5% 10%, 99.3% 22%, 98.4% 34%, 99.2% 46%, 98.6% 58%, 99.4% 70%, 98.5% 82%, 99.2% 93%, 99% 99.2%, 88% 98.5%, 74% 99.3%, 60% 98.6%, 46% 99.4%, 32% 98.7%, 18% 99.3%, 7% 98.5%, 0.6% 99.3%, 1.4% 88%, 0.5% 74%, 1.3% 60%, 0.4% 46%, 1.5% 32%, 0.6% 18%, 1.4% 8%);
-  filter: drop-shadow(0 14px 30px rgba(42, 40, 36, 0.12));
+  filter: drop-shadow(0 14px 30px rgba(24, 47, 132, 0.12));
 }
 .card:nth-child(even),
 .cap-card:nth-child(even) {
@@ -848,7 +848,7 @@ body.has-custom-cursor [role="button"] {
   top: 16px;
   width: 96px;
   transform: rotate(46deg);
-  background: linear-gradient(90deg, rgba(61, 138, 138, 0.3), rgba(61, 138, 138, 0.16));
+  background: linear-gradient(90deg, rgba(64, 108, 220, 0.3), rgba(64, 108, 220, 0.16));
 }
 .card:nth-child(even) .tape-x { transform: rotate(-46deg); }
 
@@ -859,13 +859,13 @@ body.has-custom-cursor [role="button"] {
   height: 12px;
   pointer-events: none;
   opacity: 0.85;
-  border: 1px solid rgba(42, 40, 36, 0.35);
+  border: 1px solid rgba(24, 47, 132, 0.35);
 }
 .cmyk-bar span { display: block; width: 16px; height: 100%; }
 .cmyk-c { background: #00aeef; }
-.cmyk-m { background: #ec008c; }
-.cmyk-y { background: #ffe600; }
-.cmyk-k { background: #2a2824; }
+.cmyk-m { background: #2a55d4; }
+.cmyk-y { background: #4d79ff; }
+.cmyk-k { background: #1e3ea6; }
 .hero-inner .cmyk-bar {
   left: 26%;
   bottom: 4%;
@@ -888,7 +888,7 @@ body.has-custom-cursor [role="button"] {
   width: 150px;
   height: 64px;
   overflow: visible;
-  color: rgba(42, 40, 36, 0.45);
+  color: rgba(24, 47, 132, 0.45);
 }
 .scribble path {
   fill: none;
@@ -979,4 +979,267 @@ body.has-custom-cursor [role="button"] {
 .skill-ribbon a {
   color: inherit;
   text-decoration: none;
+}
+   Y2K WEBCORE RESTYLE — blue riso / 千禧网页拼贴 (2026-10-27)
+   冰蓝×钴蓝单色套印 · 网点颗粒 · 星星/代码碎片拼贴
+   ============================================================ */
+
+/* ---------- 全局：riso 网点底纹 ---------- */
+body {
+  min-width: 1180px;
+  background:
+    radial-gradient(circle at 12% 14%, rgba(255, 255, 255, 0.85), transparent 32%),
+    radial-gradient(rgba(30, 58, 166, 0.13) 1.1px, transparent 1.4px) 0 0 / 13px 13px,
+    radial-gradient(rgba(30, 58, 166, 0.06) 1px, transparent 1.3px) 6px 7px / 17px 17px,
+    linear-gradient(180deg, #e3edfa 0%, var(--paper) 46%, #d5e3f8 100%);
+}
+
+/* 噪点层保留（已染蓝），再叠 riso 错版高光 */
+body::after {
+  position: fixed;
+  inset: 0;
+  z-index: 31;
+  pointer-events: none;
+  content: "";
+  opacity: 0.5;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(255, 255, 255, 0.34), transparent 42%);
+  mix-blend-mode: screen;
+}
+
+::selection {
+  background: rgba(77, 121, 255, 0.32);
+  color: #142c8f;
+}
+
+/* ---------- 套印错版标题 ---------- */
+.hero h1,
+.ascii-title,
+.section-heading h2,
+.compact-heading,
+.article-title-block h1 {
+  text-shadow:
+    2px 2px 0 rgba(122, 166, 248, 0.5),
+    -1.5px -1px 0 rgba(24, 47, 132, 0.28);
+}
+
+/* ---------- 卡片拼贴：硬偏移阴影 + 微倾斜 ---------- */
+.project-card,
+.technical-study-card,
+.strength-card {
+  rotate: -0.55deg;
+  border-width: 1.5px;
+  border-color: rgba(30, 58, 166, 0.42);
+  box-shadow: 8px 11px 0 rgba(122, 166, 248, 0.36);
+}
+
+.project-card:nth-child(even),
+.technical-study-card:nth-child(even),
+.strength-card:nth-child(even) {
+  rotate: 0.65deg;
+  box-shadow: -9px 10px 0 rgba(122, 166, 248, 0.34);
+}
+
+.project-card:nth-child(3n),
+.technical-study-card:nth-child(3n),
+.strength-card:nth-child(3n) {
+  rotate: 0deg;
+}
+
+.project-card.is-revealed:hover,
+.technical-study-card.is-revealed:hover,
+.strength-card.is-revealed:hover {
+  rotate: 0deg;
+  border-color: rgba(24, 47, 132, 0.65);
+  box-shadow: 10px 14px 0 rgba(96, 146, 245, 0.45), 0 25px 64px rgba(24, 47, 132, 0.16);
+}
+
+/* 媒体框：riso 印刷边框 + 网点角标 */
+.media-frame-header {
+  background: rgba(30, 58, 166, 0.08);
+  color: #2447bd;
+  letter-spacing: 0.08em;
+}
+
+.media-strip span {
+  background: rgba(30, 58, 166, 0.07);
+  border: 1px solid rgba(30, 58, 166, 0.22);
+}
+
+/* ---------- 按钮改像素字体 + 硬阴影 ---------- */
+.primary-action,
+.secondary-action,
+.nav-contact {
+  border-radius: 0;
+  font-family: var(--pixel-font);
+  -webkit-font-smoothing: none;
+  letter-spacing: 0.03em;
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.primary-action {
+  border: 1.5px solid #142c8f;
+  background: #2447bd;
+  color: #f4f8ff;
+  box-shadow: 4px 4px 0 rgba(24, 47, 132, 0.75);
+}
+
+.primary-action:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 rgba(24, 47, 132, 0.75);
+}
+
+.secondary-action {
+  border: 1.5px solid rgba(30, 58, 166, 0.5);
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: 4px 4px 0 rgba(122, 166, 248, 0.45);
+}
+
+.secondary-action:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 rgba(122, 166, 248, 0.55);
+}
+
+.nav-contact {
+  border: 1.5px solid #142c8f;
+  background: #f4f8ff;
+  box-shadow: 3px 3px 0 rgba(24, 47, 132, 0.6);
+}
+
+/* ---------- hero 纸片 scrap → 蓝色印刷贴纸 ---------- */
+.hero-paper-scrap {
+  background:
+    radial-gradient(rgba(30, 58, 166, 0.12) 1px, transparent 1.3px) 0 0 / 11px 12px,
+    repeating-linear-gradient(0deg, rgba(74, 108, 208, 0.05) 0 1px, transparent 1px 5px),
+    #f6f9ff;
+  box-shadow: 13px 15px 0 rgba(122, 166, 248, 0.45), 0 2px 0 rgba(30, 58, 166, 0.25);
+  border: 1.5px solid rgba(30, 58, 166, 0.35);
+}
+
+.hero-paper-scrap::before {
+  border-color: rgba(30, 58, 166, 0.18);
+}
+
+/* ---------- 玉桂狗 → 蓝色星星水印 ---------- */
+.cinnamon-watermark {
+  opacity: 0.2;
+  transform: rotate(-6deg);
+}
+
+.cinnamon-watermark::before,
+.cinnamon-watermark::after {
+  background: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 4 L60 37 L95 37 L67 58 L77 93 L50 71 L23 93 L33 58 L5 37 L40 37 Z' fill='%232a55d4'/%3E%3C/svg%3E") center / 58% no-repeat,
+    url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 4 L60 37 L95 37 L67 58 L77 93 L50 71 L23 93 L33 58 L5 37 L40 37 Z' fill='%237aa6f8'/%3E%3C/svg%3E") center / 34% no-repeat;
+  background-position: 46% 48%, 74% 70%;
+  mask-image: none;
+  filter: none;
+  opacity: 0.55;
+  transform: none;
+}
+
+.cinnamon-watermark::after {
+  opacity: 0.3;
+  transform: translate(4px, 3px);
+}
+
+/* ---------- 光标 → 蓝色四角星 ---------- */
+.cinnamon-cursor {
+  width: 34px;
+  height: 34px;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 0 C54 30 70 46 100 50 C70 54 54 70 50 100 C46 70 30 54 0 50 C30 46 46 30 50 0 Z' fill='%232a55d4' stroke='%23e3edfa' stroke-width='5'/%3E%3C/svg%3E");
+  background-size: 100%;
+  opacity: 0;
+  transition: opacity 120ms ease, visibility 120ms ease;
+}
+
+.cinnamon-cursor.is-visible {
+  opacity: 0.9;
+}
+
+/* 点击粒子：雪花 → 蓝星 */
+.snowflake-burst {
+  color: #2a55d4;
+  text-shadow: 1.5px 1.5px 0 rgba(122, 166, 248, 0.65);
+}
+
+/* ---------- 导航 logo 星 ---------- */
+.nav-cinnamon img {
+  display: none;
+}
+
+.nav-cinnamon::before {
+  content: "✦";
+  color: #2447bd;
+  font-size: 26px;
+  line-height: 1;
+  text-shadow: 1.5px 1.5px 0 rgba(122, 166, 248, 0.6);
+}
+
+/* ---------- 全站漂浮装饰层 ---------- */
+.webcore-decor {
+  position: fixed;
+  inset: 0;
+  z-index: 34;
+  pointer-events: none;
+  overflow: hidden;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+.webcore-decor .wc-star {
+  position: absolute;
+  color: #2a55d4;
+  line-height: 1;
+  opacity: 0.5;
+}
+
+.webcore-decor .wc-star svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.webcore-decor .wc-star.is-soft {
+  color: #7aa6f8;
+  opacity: 0.42;
+}
+
+.webcore-decor .wc-frag {
+  position: absolute;
+  color: rgba(30, 58, 166, 0.44);
+  background: rgba(246, 249, 255, 0.62);
+  border: 1px solid rgba(30, 58, 166, 0.16);
+  padding: 2px 6px;
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  box-shadow: 2px 2px 0 rgba(122, 166, 248, 0.3);
+}
+
+.webcore-decor .wc-frag.is-bare {
+  background: none;
+  border: 0;
+  box-shadow: none;
+  opacity: 0.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .webcore-decor .wc-star { opacity: 0.35; }
+}
+
+/* ---------- 细节收尾 ---------- */
+.eyebrow {
+  text-shadow: 1px 1px 0 rgba(122, 166, 248, 0.5);
+}
+
+.scrap-link:hover {
+  color: #2447bd;
+}
+
+.skill-ribbon {
+  border-style: dashed;
+}
+
+.media-watermark {
+  color: rgba(30, 58, 166, 0.5);
+  font-family: var(--pixel-font);
 }
