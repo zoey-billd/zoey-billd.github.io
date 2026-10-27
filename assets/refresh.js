@@ -462,3 +462,167 @@
     initSketch();
   }
 })();
+
+/* ============================================================
+   Y2K WEBCORE GARNISH v16 — 星星/代码碎片漂浮层 + 脉冲星 + 流星 +
+   五线谱 Thanks + Win98 "Purr" 彩蛋弹窗
+   ============================================================ */
+(function () {
+  if (window.__webcoreGarnish) return;
+  window.__webcoreGarnish = true;
+
+  var STAR = "M50 4 L60 37 L95 37 L67 58 L77 93 L50 71 L23 93 L33 58 L5 37 L40 37 Z";
+  var SPARK = "M50 0 C54 30 70 46 100 50 C70 54 54 70 50 100 C46 70 30 54 0 50 C30 46 46 30 50 0 Z";
+
+  var STARS = [
+    { top: "9%", left: "3.5%", size: 26, rot: -14, soft: false },
+    { top: "26%", left: "96.2%", size: 34, rot: 10, soft: true },
+    { top: "47%", left: "1.8%", size: 18, rot: 24, soft: true },
+    { top: "62%", left: "96.8%", size: 22, rot: -8, soft: false },
+    { top: "78%", left: "3.2%", size: 30, rot: 18, soft: false },
+    { top: "93%", left: "90%", size: 18, rot: -20, soft: true },
+    { top: "15%", left: "90%", size: 16, rot: 30, soft: false },
+    { top: "70%", left: "8%", size: 14, rot: -30, soft: true },
+    { top: "38%", left: "12%", size: 12, rot: 12, soft: true }
+  ];
+
+  var FRAGS = [
+    { top: "12%", left: "72%", text: "dear, my own feelings", bare: false, rot: -3 },
+    { top: "23%", left: "4.5%", text: "if (love) print('*')", bare: true, rot: 2 },
+    { top: "38%", left: "92%", text: "N_ADA IZE", bare: false, rot: 5 },
+    { top: "55%", left: "5.5%", text: "0x2 // riso_blu", bare: false, rot: -4 },
+    { top: "67%", left: "86%", text: "MAX_NL 3:)", bare: true, rot: 3 },
+    { top: "86%", left: "10%", text: "X, DT -> WEIGH", bare: false, rot: -2 },
+    { top: "94%", left: "72%", text: "endless conversations", bare: true, rot: 2 },
+    { top: "33%", left: "1.5%", text: "@seed 0x2F", bare: false, rot: -6 }
+  ];
+
+  function make(tag, cls, styles) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (styles) for (var k in styles) n.style.setProperty(k, styles[k]);
+    return n;
+  }
+
+  function svgWrap(path, rot) {
+    var s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    s.setAttribute("viewBox", "0 0 100 100");
+    var p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    p.setAttribute("d", path);
+    p.setAttribute("fill", "currentColor");
+    s.appendChild(p);
+    s.style.transform = "rotate(" + rot + "deg)";
+    return s;
+  }
+
+  function buildDecor() {
+    var layer = make("div", "webcore-decor");
+    layer.setAttribute("aria-hidden", "true");
+
+    STARS.forEach(function (st, i) {
+      var sp = make("span", "wc-star" + (st.soft ? " is-soft" : ""), {
+        top: st.top, left: st.left, width: st.size + "px", height: st.size + "px"
+      });
+      sp.appendChild(svgWrap(i % 3 === 1 ? SPARK : STAR, st.rot));
+      layer.appendChild(sp);
+    });
+
+    FRAGS.forEach(function (fg) {
+      var fr = make("span", "wc-frag" + (fg.bare ? " is-bare" : ""), {
+        top: fg.top, left: fg.left, transform: "rotate(" + fg.rot + "deg)"
+      });
+      fr.textContent = fg.text;
+      layer.appendChild(fr);
+    });
+
+    // 脉冲星放射图（旅行者金唱片同款，手绘线）
+    var pulsar = make("span", "wc-pulsar", { top: "5%", right: "2.5%" });
+    pulsar.innerHTML =
+      '<svg viewBox="0 0 200 160" fill="none" stroke="currentColor" stroke-width="1.6">' +
+      '<line x1="66" y1="82" x2="196" y2="82"/>' +
+      '<line x1="66" y1="82" x2="128" y2="10" stroke-dasharray="1 4"/>' +
+      '<line x1="66" y1="82" x2="150" y2="26" stroke-dasharray="4 3"/>' +
+      '<line x1="66" y1="82" x2="104" y2="6" stroke-dasharray="2 3"/>' +
+      '<line x1="66" y1="82" x2="46" y2="8" stroke-dasharray="4 4"/>' +
+      '<line x1="66" y1="82" x2="14" y2="40" stroke-dasharray="1 4"/>' +
+      '<line x1="66" y1="82" x2="4" y2="76" stroke-dasharray="5 3"/>' +
+      '<line x1="66" y1="82" x2="18" y2="122" stroke-dasharray="2 4"/>' +
+      '<line x1="66" y1="82" x2="52" y2="152" stroke-dasharray="4 3"/>' +
+      '<line x1="66" y1="82" x2="98" y2="148" stroke-dasharray="1 5"/>' +
+      '<line x1="66" y1="82" x2="122" y2="120" stroke-dasharray="3 4"/>' +
+      '<circle cx="66" cy="82" r="2.4" fill="currentColor" stroke="none"/>' +
+      "</svg>";
+    layer.appendChild(pulsar);
+
+    // 流星（自绘：大四角星 + 渐小拖尾）
+    var shoot = make("span", "wc-shoot", { top: "56%", right: "4%" });
+    shoot.innerHTML =
+      '<svg viewBox="0 0 200 130" fill="currentColor">' +
+      '<path d="M58 44 C61 62 70 71 88 74 C70 77 61 86 58 104 C55 86 46 77 28 74 C46 71 55 62 58 44 Z"/>' +
+      '<path d="M96 52 l2.4 7.2 7.2 2.4 -7.2 2.4 -2.4 7.2 -2.4 -7.2 -7.2 -2.4 7.2 -2.4 Z"/>' +
+      '<path d="M118 38 l1.8 5.4 5.4 1.8 -5.4 1.8 -1.8 5.4 -1.8 -5.4 -5.4 -1.8 5.4 -1.8 Z" opacity="0.85"/>' +
+      '<path d="M138 26 l1.4 4.2 4.2 1.4 -4.2 1.4 -1.4 4.2 -1.4 -4.2 -4.2 -1.4 4.2 -1.4 Z" opacity="0.7"/>' +
+      '<path d="M156 16 l1.1 3.3 3.3 1.1 -3.3 1.1 -1.1 3.3 -1.1 -3.3 -3.3 -1.1 3.3 -1.1 Z" opacity="0.55"/>' +
+      '<path d="M172 8 l0.9 2.6 2.6 0.9 -2.6 0.9 -0.9 2.6 -0.9 -2.6 -2.6 -0.9 2.6 -0.9 Z" opacity="0.4"/>' +
+      "</svg>";
+    layer.appendChild(shoot);
+
+    // 五线谱 Thanks 贴纸
+    var thanks = make("span", "wc-thanks", { bottom: "3.5%", right: "5%" });
+    thanks.innerHTML =
+      '<svg viewBox="0 0 220 84" fill="none">' +
+      '<g stroke="currentColor" stroke-width="1.1">' +
+      '<line x1="10" y1="24" x2="212" y2="24"/><line x1="10" y1="34" x2="212" y2="34"/>' +
+      '<line x1="10" y1="44" x2="212" y2="44"/><line x1="10" y1="54" x2="212" y2="54"/>' +
+      '<line x1="10" y1="64" x2="212" y2="64"/></g>' +
+      '<path d="M22 64 C18 44 20 30 34 22 C28 34 28 50 26 64 Z" fill="currentColor"/>' +
+      '<circle cx="24" cy="66" r="4.5" fill="currentColor"/>' +
+      '<text x="48" y="56" font-family="Georgia, serif" font-style="italic" font-size="40" fill="currentColor">Thanks</text>' +
+      '<ellipse cx="150" cy="24" rx="4.5" ry="3.4" fill="currentColor"/>' +
+      '<ellipse cx="196" cy="20" rx="4.5" ry="3.4" fill="currentColor"/>' +
+      "</svg>";
+    layer.appendChild(thanks);
+
+    document.body.appendChild(layer);
+  }
+
+  // Win98 "Purr" 彩蛋弹窗
+  function buildDialog() {
+    var dlg = make("div", "wc98-dialog");
+    dlg.setAttribute("role", "dialog");
+    dlg.innerHTML =
+      '<div class="wc98-title"><span>Purr</span><button type="button" aria-label="close">×</button></div>' +
+      '<div class="wc98-body">' +
+      '<span class="wc98-cat"><svg viewBox="0 0 32 32" width="34" height="34">' +
+      '<path d="M6 14 L6 6 L11 10 L21 10 L26 6 L26 14 Q26 24 16 24 Q6 24 6 14 Z" fill="#fdfdff" stroke="#1e3ea6" stroke-width="1.5"/>' +
+      '<circle cx="12" cy="15.5" r="1.8" fill="#3fae5a"/><circle cx="20" cy="15.5" r="1.8" fill="#3fae5a"/>' +
+      '<path d="M15 19 L16 20.2 L17 19" stroke="#1e3ea6" stroke-width="1.2" fill="none"/></svg></span>' +
+      '<p>Do you love cats?</p>' +
+      '<div class="wc98-btns"><button type="button" data-a="yes">Yes</button><button type="button" data-a="sure">Yes, I do</button></div>' +
+      "</div>";
+
+    dlg.querySelector(".wc98-title button").addEventListener("click", function () {
+      dlg.remove();
+    });
+    dlg.querySelectorAll(".wc98-btns button").forEach(function (b) {
+      b.addEventListener("click", function () {
+        dlg.querySelector(".wc98-body p").textContent =
+          b.getAttribute("data-a") === "sure" ? "correct answer ♪ purr~" : "♪ purr purr ~";
+        dlg.querySelectorAll(".wc98-btns button").forEach(function (x) { x.disabled = true; });
+      });
+    });
+
+    document.body.appendChild(dlg);
+  }
+
+  function initGarnish() {
+    buildDecor();
+    buildDialog();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initGarnish);
+  } else {
+    initGarnish();
+  }
+})();
