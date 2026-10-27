@@ -464,8 +464,7 @@
 })();
 
 /* ============================================================
-   Y2K WEBCORE GARNISH v16 — 星星/代码碎片漂浮层 + 脉冲星 + 流星 +
-   五线谱 Thanks + Win98 "Purr" 彩蛋弹窗
+   Y2K WEBCORE GARNISH v17 — 星星/代码碎片漂浮层 + 脉冲星 + 流星 + 五线谱 Thanks
    ============================================================ */
 (function () {
   if (window.__webcoreGarnish) return;
@@ -586,38 +585,8 @@
     document.body.appendChild(layer);
   }
 
-  // Win98 "Purr" 彩蛋弹窗
-  function buildDialog() {
-    var dlg = make("div", "wc98-dialog");
-    dlg.setAttribute("role", "dialog");
-    dlg.innerHTML =
-      '<div class="wc98-title"><span>Purr</span><button type="button" aria-label="close">×</button></div>' +
-      '<div class="wc98-body">' +
-      '<span class="wc98-cat"><svg viewBox="0 0 32 32" width="34" height="34">' +
-      '<path d="M6 14 L6 6 L11 10 L21 10 L26 6 L26 14 Q26 24 16 24 Q6 24 6 14 Z" fill="#fdfdff" stroke="#1e3ea6" stroke-width="1.5"/>' +
-      '<circle cx="12" cy="15.5" r="1.8" fill="#3fae5a"/><circle cx="20" cy="15.5" r="1.8" fill="#3fae5a"/>' +
-      '<path d="M15 19 L16 20.2 L17 19" stroke="#1e3ea6" stroke-width="1.2" fill="none"/></svg></span>' +
-      '<p>Do you love cats?</p>' +
-      '<div class="wc98-btns"><button type="button" data-a="yes">Yes</button><button type="button" data-a="sure">Yes, I do</button></div>' +
-      "</div>";
-
-    dlg.querySelector(".wc98-title button").addEventListener("click", function () {
-      dlg.remove();
-    });
-    dlg.querySelectorAll(".wc98-btns button").forEach(function (b) {
-      b.addEventListener("click", function () {
-        dlg.querySelector(".wc98-body p").textContent =
-          b.getAttribute("data-a") === "sure" ? "correct answer ♪ purr~" : "♪ purr purr ~";
-        dlg.querySelectorAll(".wc98-btns button").forEach(function (x) { x.disabled = true; });
-      });
-    });
-
-    document.body.appendChild(dlg);
-  }
-
   function initGarnish() {
     buildDecor();
-    buildDialog();
   }
 
   if (document.readyState === "loading") {
