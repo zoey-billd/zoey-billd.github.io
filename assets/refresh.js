@@ -595,3 +595,113 @@
     initGarnish();
   }
 })();
+
+// —— TA 工具箱板块（refresh 层注入；React 端自带 #ta-toolbox 后自动让位） ——
+(function () {
+  var toolCards = [
+    {
+      title: "资产检查器 Asset Validator",
+      img: "./assets/ta-tools/asset-validator.png",
+      text: "UE 编辑器内一键扫描全工程或选中目录，按路径、类名、规格、材质、蓝图、引用多维校验，输出分类错误报告，并支持一键修复与重定向修复。",
+      tags: "UE5 · Editor Utility · Python"
+    },
+    {
+      title: "贴图导入审计 Texture Import Audit",
+      img: "./assets/ta-tools/texture-import-audit.png",
+      text: "贴图导入前体检 sRGB、压缩格式与尺寸，逐条列出问题资产并可一键定位到具体贴图，支持批量修复。",
+      tags: "UE5 · 导入规范 · 自动修复"
+    },
+    {
+      title: "PCG Agent 调优工作台",
+      img: "./assets/ta-tools/pcg-agent-workbench.png",
+      text: "用自然语言描述需求（如「把蕨类调密一点，灌木更饱满」），本地 LLM 解读后调整 PCG 参数；带参数闸门与快照回滚，改错可退回。所有 AI 能力本地离线部署，工程数据不外流。",
+      tags: "Ollama · 本地 LLM · 参数闸门 · 快照回滚"
+    },
+    {
+      title: "UnrealMCP Bridge",
+      img: "./assets/ta-tools/unreal-mcp-bridge.png",
+      text: "UE5.6 的 MCP 适配插件，另开一条 PCG 专用 Python 通道，专治 C++ 路径在 5.6 上的稳定性问题。已开源。",
+      tags: "MCP · UE5.6 · PCG · MIT",
+      href: "https://github.com/zoey-billd/UnrealMCPBridge"
+    },
+    {
+      title: "AI 材质管线（本地部署）",
+      img: "",
+      text: "生成图经 ComfyUI / CHORD 推理出 BaseColor、Normal、Roughness，自动导入 UE 并校验色彩空间，AI 环节全程离线。",
+      tags: "ComfyUI · PBR · 离线部署"
+    }
+  ];
+
+  function injectToolbox() {
+    if (document.getElementById("ta-toolbox")) return;
+    var contact = document.querySelector("section#contact, .contact-section");
+    if (!contact || !contact.parentNode) return;
+
+    var cards = toolCards.map(function (t) {
+      var shot = t.img
+        ? '<figure class="toolbox-shot"><img src="' + t.img + '" alt="' + t.title + '" loading="lazy"></figure>'
+        : '<div class="toolbox-shot is-empty" aria-hidden="true"></div>';
+      var link = t.href
+        ? '<a class="toolbox-link" href="' + t.href + '" target="_blank" rel="noreferrer">GitHub &#8599;</a>'
+        : "";
+      return '<div class="strength-card toolbox-card">' + shot +
+        "<h3>" + t.title + "</h3>" +
+        "<p>" + t.text + "</p>" +
+        '<span class="oss-tags">' + t.tags + "</span>" + link +
+        "</div>";
+    }).join("");
+
+    var section = document.createElement("section");
+    section.className = "section strengths-section toolbox-section";
+    section.id = "ta-toolbox";
+    section.innerHTML =
+      '<div class="section-inner">' +
+      '<div class="section-heading compact-heading">' +
+      '<p class="eyebrow">TA Tooling</p>' +
+      "<h2>把重复的检查与调参，做成能直接用的工具。</h2>" +
+      "</div>" +
+      '<div class="strength-grid toolbox-grid">' + cards + "</div>" +
+      '<div class="skill-ribbon"><a href="#open-source">开源仓库 &#8594;</a></div>' +
+      "</div>";
+
+    // 板块顺序：TA 工具箱 → Open Source → Contact（谁先注入都能归位）
+    var ossSection = document.getElementById("open-source");
+    var anchor = ossSection || contact;
+    if (section.nextSibling !== anchor) contact.parentNode.insertBefore(section, anchor);
+
+    // 导航项同样归位
+    var nav = document.querySelector(".nav-links");
+    if (nav) {
+      var link = nav.querySelector('a[href="#ta-toolbox"]');
+      if (!link) {
+        link = document.createElement("a");
+        link.href = "#ta-toolbox";
+        link.textContent = "TA 工具箱";
+      }
+      var ossLink = nav.querySelector('a[href="#open-source"]');
+      var contactLink = nav.querySelector('a[href="#contact"]');
+      var navAnchor = ossLink || contactLink;
+      if (navAnchor) {
+        if (link.nextSibling !== navAnchor) nav.insertBefore(link, navAnchor);
+      } else if (!link.parentNode) {
+        nav.appendChild(link);
+      }
+    }
+  }
+
+  function boot() {
+    injectToolbox();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
+
+  var observer = new MutationObserver(function () {
+    observer.disconnect();
+    try { injectToolbox(); } finally { observer.observe(document.body, { childList: true, subtree: true }); }
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+})();

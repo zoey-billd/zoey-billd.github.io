@@ -1291,3 +1291,67 @@ body::after {
   display: block;
   width: 100%;
 }
+
+/* ---- TA 工具箱板块（refresh 层注入） ---- */
+.toolbox-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.toolbox-section .toolbox-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 18px 18px 22px;
+}
+
+.toolbox-shot {
+  margin: 0 0 16px;
+  border: 1.5px solid rgba(30, 58, 166, 0.34);
+  background: #0d1524;
+  box-shadow: 4px 5px 0 rgba(122, 166, 248, 0.3);
+  overflow: hidden;
+}
+
+.toolbox-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 240px;
+  object-fit: cover;
+  object-position: top left;
+}
+
+.toolbox-shot.is-empty {
+  height: 78px;
+  background:
+    radial-gradient(rgba(30, 58, 166, 0.16) 1px, transparent 1.2px) 0 0 / 11px 11px,
+    linear-gradient(135deg, rgba(122, 166, 248, 0.22), rgba(255, 255, 255, 0.5));
+}
+
+.toolbox-section .toolbox-card h3 {
+  margin: 0 0 10px;
+  font-size: 1.28rem;
+  line-height: 1.25;
+}
+
+.toolbox-section .toolbox-card p {
+  margin: 0 0 4px;
+  font-size: 0.94rem;
+  line-height: 1.62;
+}
+
+.toolbox-link {
+  display: inline-block;
+  margin-top: 0.7rem;
+  font-family: "Courier Prime", ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: inherit;
+  opacity: 0.85;
+  text-decoration: underline;
+}
+
+@media (max-width: 1180px) {
+  .toolbox-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
