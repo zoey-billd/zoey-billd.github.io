@@ -304,7 +304,7 @@
     replaceModalIvyImage();
     initCollage();
     injectOpenSource();
-    fixResumeLink();
+    removeResume();
   }
 
   if (document.readyState === "loading") {
@@ -324,7 +324,7 @@
       replaceModalIvyImage();
       initCollage();
       injectOpenSource();
-      fixResumeLink();
+      removeResume();
     } finally {
       observer.observe(document.body, { childList: true, subtree: true });
     }
@@ -401,14 +401,11 @@
     }
   }
 
-  // —— 简历链接直连 PDF（GitHub blob 页打开慢且不触发下载） ——
-  function fixResumeLink() {
-    document.querySelectorAll('a[href*="Resume_Zoey"]').forEach((a) => {
-      if (a.href.indexOf("raw.githubusercontent") !== -1) return;
-      a.href =
-        "https://raw.githubusercontent.com/zoey-billd/Portfolio/main/Resume_Zoey_UE_TA.pdf";
-      a.target = "_blank";
-      a.rel = "noreferrer";
+  // —— 移除 hero 里的简历区块（PDF 链接 + "portfolio repo / resume in progress" 小字） ——
+  function removeResume() {
+    document.querySelectorAll('a[href*="Resume_Zoey"]').forEach(function (a) { a.remove(); });
+    document.querySelectorAll(".scrap-note").forEach(function (n) {
+      if (/resume in progress/i.test(n.textContent)) n.remove();
     });
   }
 
@@ -534,37 +531,9 @@
       layer.appendChild(fr);
     });
 
-    // 脉冲星放射图（旅行者金唱片同款，手绘线）
-    var pulsar = make("span", "wc-pulsar", { top: "5%", right: "2.5%" });
-    pulsar.innerHTML =
-      '<svg viewBox="0 0 200 160" fill="none" stroke="currentColor" stroke-width="1.6">' +
-      '<line x1="66" y1="82" x2="196" y2="82"/>' +
-      '<line x1="66" y1="82" x2="128" y2="10" stroke-dasharray="1 4"/>' +
-      '<line x1="66" y1="82" x2="150" y2="26" stroke-dasharray="4 3"/>' +
-      '<line x1="66" y1="82" x2="104" y2="6" stroke-dasharray="2 3"/>' +
-      '<line x1="66" y1="82" x2="46" y2="8" stroke-dasharray="4 4"/>' +
-      '<line x1="66" y1="82" x2="14" y2="40" stroke-dasharray="1 4"/>' +
-      '<line x1="66" y1="82" x2="4" y2="76" stroke-dasharray="5 3"/>' +
-      '<line x1="66" y1="82" x2="18" y2="122" stroke-dasharray="2 4"/>' +
-      '<line x1="66" y1="82" x2="52" y2="152" stroke-dasharray="4 3"/>' +
-      '<line x1="66" y1="82" x2="98" y2="148" stroke-dasharray="1 5"/>' +
-      '<line x1="66" y1="82" x2="122" y2="120" stroke-dasharray="3 4"/>' +
-      '<circle cx="66" cy="82" r="2.4" fill="currentColor" stroke="none"/>' +
-      "</svg>";
-    layer.appendChild(pulsar);
 
-    // 流星（自绘：大四角星 + 渐小拖尾）
-    var shoot = make("span", "wc-shoot", { top: "56%", right: "4%" });
-    shoot.innerHTML =
-      '<svg viewBox="0 0 200 130" fill="currentColor">' +
-      '<path d="M58 44 C61 62 70 71 88 74 C70 77 61 86 58 104 C55 86 46 77 28 74 C46 71 55 62 58 44 Z"/>' +
-      '<path d="M96 52 l2.4 7.2 7.2 2.4 -7.2 2.4 -2.4 7.2 -2.4 -7.2 -7.2 -2.4 7.2 -2.4 Z"/>' +
-      '<path d="M118 38 l1.8 5.4 5.4 1.8 -5.4 1.8 -1.8 5.4 -1.8 -5.4 -5.4 -1.8 5.4 -1.8 Z" opacity="0.85"/>' +
-      '<path d="M138 26 l1.4 4.2 4.2 1.4 -4.2 1.4 -1.4 4.2 -1.4 -4.2 -4.2 -1.4 4.2 -1.4 Z" opacity="0.7"/>' +
-      '<path d="M156 16 l1.1 3.3 3.3 1.1 -3.3 1.1 -1.1 3.3 -1.1 -3.3 -3.3 -1.1 3.3 -1.1 Z" opacity="0.55"/>' +
-      '<path d="M172 8 l0.9 2.6 2.6 0.9 -2.6 0.9 -0.9 2.6 -0.9 -2.6 -2.6 -0.9 2.6 -0.9 Z" opacity="0.4"/>' +
-      "</svg>";
-    layer.appendChild(shoot);
+
+
 
     // 五线谱 Thanks 贴纸
     var thanks = make("span", "wc-thanks", { bottom: "3.5%", right: "5%" });
@@ -594,114 +563,4 @@
   } else {
     initGarnish();
   }
-})();
-
-// —— TA 工具箱板块（refresh 层注入；React 端自带 #ta-toolbox 后自动让位） ——
-(function () {
-  var toolCards = [
-    {
-      title: "资产检查器 Asset Validator",
-      img: "./assets/ta-tools/asset-validator.png",
-      text: "UE 编辑器内一键扫描全工程或选中目录，按路径、类名、规格、材质、蓝图、引用多维校验，输出分类错误报告，并支持一键修复与重定向修复。",
-      tags: "UE5 · Editor Utility · Python"
-    },
-    {
-      title: "贴图导入审计 Texture Import Audit",
-      img: "./assets/ta-tools/texture-import-audit.png",
-      text: "贴图导入前体检 sRGB、压缩格式与尺寸，逐条列出问题资产并可一键定位到具体贴图，支持批量修复。",
-      tags: "UE5 · 导入规范 · 自动修复"
-    },
-    {
-      title: "PCG Agent 调优工作台",
-      img: "./assets/ta-tools/pcg-agent-workbench.png",
-      text: "用自然语言描述需求（如「把蕨类调密一点，灌木更饱满」），本地 LLM 解读后调整 PCG 参数；带参数闸门与快照回滚，改错可退回。所有 AI 能力本地离线部署，工程数据不外流。",
-      tags: "Ollama · 本地 LLM · 参数闸门 · 快照回滚"
-    },
-    {
-      title: "UnrealMCP Bridge",
-      img: "./assets/ta-tools/unreal-mcp-bridge.png",
-      text: "UE5.6 的 MCP 适配插件，另开一条 PCG 专用 Python 通道，专治 C++ 路径在 5.6 上的稳定性问题。已开源。",
-      tags: "MCP · UE5.6 · PCG · MIT",
-      href: "https://github.com/zoey-billd/UnrealMCPBridge"
-    },
-    {
-      title: "AI 材质管线（本地部署）",
-      img: "",
-      text: "生成图经 ComfyUI / CHORD 推理出 BaseColor、Normal、Roughness，自动导入 UE 并校验色彩空间，AI 环节全程离线。",
-      tags: "ComfyUI · PBR · 离线部署"
-    }
-  ];
-
-  function injectToolbox() {
-    if (document.getElementById("ta-toolbox")) return;
-    var contact = document.querySelector("section#contact, .contact-section");
-    if (!contact || !contact.parentNode) return;
-
-    var cards = toolCards.map(function (t) {
-      var shot = t.img
-        ? '<figure class="toolbox-shot"><img src="' + t.img + '" alt="' + t.title + '" loading="lazy"></figure>'
-        : '<div class="toolbox-shot is-empty" aria-hidden="true"></div>';
-      var link = t.href
-        ? '<a class="toolbox-link" href="' + t.href + '" target="_blank" rel="noreferrer">GitHub &#8599;</a>'
-        : "";
-      return '<div class="strength-card toolbox-card">' + shot +
-        "<h3>" + t.title + "</h3>" +
-        "<p>" + t.text + "</p>" +
-        '<span class="oss-tags">' + t.tags + "</span>" + link +
-        "</div>";
-    }).join("");
-
-    var section = document.createElement("section");
-    section.className = "section strengths-section toolbox-section";
-    section.id = "ta-toolbox";
-    section.innerHTML =
-      '<div class="section-inner">' +
-      '<div class="section-heading compact-heading">' +
-      '<p class="eyebrow">TA Tooling</p>' +
-      "<h2>把重复的检查与调参，做成能直接用的工具。</h2>" +
-      "</div>" +
-      '<div class="strength-grid toolbox-grid">' + cards + "</div>" +
-      '<div class="skill-ribbon"><a href="#open-source">开源仓库 &#8594;</a></div>' +
-      "</div>";
-
-    // 板块顺序：TA 工具箱 → Open Source → Contact（谁先注入都能归位）
-    var ossSection = document.getElementById("open-source");
-    var anchor = ossSection || contact;
-    if (section.nextSibling !== anchor) contact.parentNode.insertBefore(section, anchor);
-
-    // 导航项同样归位
-    var nav = document.querySelector(".nav-links");
-    if (nav) {
-      var link = nav.querySelector('a[href="#ta-toolbox"]');
-      if (!link) {
-        link = document.createElement("a");
-        link.href = "#ta-toolbox";
-        link.textContent = "TA 工具箱";
-      }
-      var ossLink = nav.querySelector('a[href="#open-source"]');
-      var contactLink = nav.querySelector('a[href="#contact"]');
-      var navAnchor = ossLink || contactLink;
-      if (navAnchor) {
-        if (link.nextSibling !== navAnchor) nav.insertBefore(link, navAnchor);
-      } else if (!link.parentNode) {
-        nav.appendChild(link);
-      }
-    }
-  }
-
-  function boot() {
-    injectToolbox();
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", boot);
-  } else {
-    boot();
-  }
-
-  var observer = new MutationObserver(function () {
-    observer.disconnect();
-    try { injectToolbox(); } finally { observer.observe(document.body, { childList: true, subtree: true }); }
-  });
-  observer.observe(document.body, { childList: true, subtree: true });
 })();
