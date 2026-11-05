@@ -305,6 +305,7 @@
     initCollage();
     injectOpenSource();
     removeResume();
+    removeWeChat();
   }
 
   if (document.readyState === "loading") {
@@ -325,6 +326,7 @@
       initCollage();
       injectOpenSource();
       removeResume();
+      removeWeChat();
     } finally {
       observer.observe(document.body, { childList: true, subtree: true });
     }
@@ -406,6 +408,19 @@
     document.querySelectorAll('a[href*="Resume_Zoey"]').forEach(function (a) { a.remove(); });
     document.querySelectorAll(".scrap-note").forEach(function (n) {
       if (/resume in progress/i.test(n.textContent)) n.remove();
+    });
+  }
+
+  // —— 移除联系条里的微信条目（"微信 r0b0t1" 纯 span），并把关于区"邮件或微信直接联系"改成只留邮箱 ——
+  function removeWeChat() {
+    document.querySelectorAll(".contact-strip span").forEach(function (s) {
+      if (/^\s*微信/.test(s.textContent || "")) s.remove();
+    });
+    document.querySelectorAll(".contact-hint").forEach(function (p) {
+      var t = p.textContent || "";
+      if (t.indexOf("邮件或微信直接联系") !== -1) {
+        p.textContent = t.replace("邮件或微信直接联系", "邮件直接联系");
+      }
     });
   }
 
