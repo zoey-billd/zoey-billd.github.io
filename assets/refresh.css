@@ -1311,8 +1311,13 @@ body::after {
    整张视觉图（Technical Artist + 玻璃折射）+ 极简信息层
    内容区完全不受影响
    ============================================================ */
+/* 外层 .hero 也铺满米黄，消除左右白边（:has 现代浏览器支持） */
+.hero:has(.ed-hero-on) {
+  background: #e8dcc8 !important;
+  background-image: none !important;
+}
 .ed-hero-on {
-  --ed-cream: #f4f1ea;
+  --ed-cream: #e8dcc8;
   --ed-ink: #14110d;
   --ed-blue: #1e3ea6;
   position: relative;
@@ -1320,9 +1325,12 @@ body::after {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 100vw !important;
+  max-width: none !important;
+  margin-left: calc(50% - 50vw) !important;
   background: var(--ed-cream) !important;
   border-bottom: 1px solid rgba(30, 62, 166, 0.16);
-  padding: 46px 0 60px !important;
+  padding: 0 0 20px !important;
 }
 
 /* 关掉旧的 ASCII 角标与拼贴残留，首屏保持干净 */
@@ -1332,13 +1340,24 @@ body::after {
   display: none !important;
 }
 
-/* 主视觉图：缩到容器 ~84%（图内文字占图宽约 80% → 字实际占页面 ~2/3），居中 */
+/* 主视觉图：满幅铺满宽度，但限高=视口，避免大字顶部被导航裁切 */
 .ed-hero-on .ed-hero-art {
   display: block;
-  width: 84%;
-  max-width: 1100px;
+  width: 100% !important;
+  max-width: none !important;
   height: auto;
+  max-height: 100vh !important;
+  object-fit: cover;
+  object-position: center 42%;
   margin: 0 auto;
+}
+.hero:has(.ed-hero-on) {
+  min-height: 100vh !important;
+}
+.hero:has(.ed-hero-on) .hero-inner {
+  min-height: 100vh !important;
+  justify-content: flex-start !important;
+  padding: 0 !important;
 }
 
 /* 原 DOM 文字：保留给 SEO / 屏幕阅读器，视觉隐藏（大字已在图里） */
@@ -1403,7 +1422,42 @@ body::after {
 }
 .ed-hero-on .ed-bili:hover { text-decoration: underline; }
 
+/* ============================================================
+   内容区精简（减少文字存在感 + 增加留白）
+   不删内容, 只降低次要文字视觉权重 + 加大呼吸空间
+   ============================================================ */
+/* 各 section 上下留白加大 */
+.section { padding: 150px 0 !important; }
+/* section 标题下间距加大 */
+.section-heading { margin-bottom: 76px !important; }
+/* 裸 p 描述段：缩小字号、淡化、拉行距 —— 覆盖 intro / project / strength / contact 所有描述 */
+.section-inner p,
+.contact-inner p,
+.intro-grid p,
+.project-card p,
+.strength-card p {
+  font-size: 0.86em !important;
+  line-height: 1.85 !important;
+  opacity: 0.62 !important;
+}
+/* 项目卡描述再收一点 */
+.project-card p { font-size: 0.82em !important; }
+/* eyebrow / 技术标签类小字更淡 */
+.project-eyebrow,
+.tech-list li,
+.technical-study-tech {
+  opacity: 0.5 !important;
+}
+/* 卡片自身留白更宽松 */
+.project-card,
+.intro-grid > *,
+.strength-card {
+  padding: 18px 0 !important;
+}
+
 @media (max-width: 640px) {
   .ed-hero-on { padding: 24px 0 34px !important; }
   .ed-hero-on .ed-meta { font-size: 8px; margin-top: 18px; }
+  .section { padding: 90px 0 !important; }
+  .section-heading { margin-bottom: 48px !important; }
 }
