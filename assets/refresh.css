@@ -1265,3 +1265,43 @@ body::after {
   display: block;
   width: 100%;
 }
+
+/* ---------- 版权声明（原创保护） ---------- */
+.zc-copyright {
+  display: block;
+  width: 100%;
+  margin-top: 32px;
+  padding: 18px 24px 22px;
+  border-top: 1px dashed rgba(30, 58, 166, 0.35);
+  background: rgba(236, 243, 255, 0.55);
+}
+
+.zc-copyright-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+  font-family: var(--pixel-font, monospace);
+  font-size: 11px;
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+  color: rgba(30, 58, 166, 0.72);
+}
+
+.zc-copyright-mark {
+  font-weight: 700;
+  color: rgba(14, 42, 107, 0.88);
+}
+
+.zc-copyright-sep {
+  opacity: 0.5;
+}
+
+@media (max-width: 640px) {
+  .zc-copyright { padding: 16px 16px 20px; }
+  .zc-copyright-inner { font-size: 10px; }
+}

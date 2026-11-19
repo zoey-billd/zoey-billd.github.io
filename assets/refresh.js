@@ -306,6 +306,7 @@
     injectOpenSource();
     removeResume();
     removeWeChat();
+    injectCopyright();
   }
 
   if (document.readyState === "loading") {
@@ -327,6 +328,7 @@
       injectOpenSource();
       removeResume();
       removeWeChat();
+      injectCopyright();
     } finally {
       observer.observe(document.body, { childList: true, subtree: true });
     }
@@ -422,6 +424,21 @@
         p.textContent = t.replace("邮件或微信直接联系", "邮件直接联系");
       }
     });
+  }
+
+  // —— 版权声明：插到页面最底部，声明原创归属 ——
+  function injectCopyright() {
+    if (document.querySelector(".zc-copyright")) return;
+    var el = document.createElement("footer");
+    el.className = "zc-copyright";
+    el.setAttribute("role", "contentinfo");
+    el.innerHTML =
+      '<div class="zc-copyright-inner">' +
+      '<span class="zc-copyright-mark">© 2026 Zoey Xie</span>' +
+      '<span class="zc-copyright-sep">·</span>' +
+      '<span>本站所有图像与程序化作品均为原创，未经书面授权请勿复制、转载或用于商业用途。</span>' +
+      '</div>';
+    document.body.appendChild(el);
   }
 
   // —— 低调的画作入口：藏在首页 hero 链接行里，点开才看得到 ——
