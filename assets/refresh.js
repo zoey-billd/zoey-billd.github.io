@@ -305,6 +305,7 @@
     injectOpenSource();
     removeResume();
     removeWeChat();
+    removeCinnamor();
     injectCopyright();
     buildEditorialHero();
   }
@@ -327,6 +328,7 @@
       injectOpenSource();
       removeResume();
       removeWeChat();
+      removeCinnamor();
       injectCopyright();
       buildEditorialHero();
     } finally {
@@ -424,6 +426,11 @@
         p.textContent = t.replace("邮件或微信直接联系", "邮件直接联系");
       }
     });
+  }
+
+  // —— 移除导航栏左上角的玉桂狗 icon（保留 ZX 文字标识） ——
+  function removeCinnamor() {
+    document.querySelectorAll(".brand-cinnamon").forEach(function (img) { img.remove(); });
   }
 
   // —— 版权声明：插到页面最底部，声明原创归属 ——

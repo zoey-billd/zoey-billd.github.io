@@ -1332,11 +1332,11 @@ body::after {
   display: none !important;
 }
 
-/* 主视觉图：铺满容器宽度，米白底与页面无缝 */
+/* 主视觉图：缩到容器 ~84%（图内文字占图宽约 80% → 字实际占页面 ~2/3），居中 */
 .ed-hero-on .ed-hero-art {
   display: block;
-  width: 100%;
-  max-width: 1320px;
+  width: 84%;
+  max-width: 1100px;
   height: auto;
   margin: 0 auto;
 }
