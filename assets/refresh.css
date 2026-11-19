@@ -1308,7 +1308,7 @@ body::after {
 
 /* ============================================================
    编辑式首屏（editorial hero）—— 仅作用于 .ed-hero-on
-   整张视觉图（Technical Artist + 玻璃折射）+ 极简信息层
+   两个独立透明图层：衬线字在下 + 玻璃方块在上（正片叠底），+ 极简信息层
    内容区完全不受影响
    ============================================================ */
 /* 外层 .hero 也铺满米黄，消除左右白边（:has 现代浏览器支持） */
@@ -1340,24 +1340,44 @@ body::after {
   display: none !important;
 }
 
-/* 主视觉图：满幅铺满宽度，但限高=视口，避免大字顶部被导航裁切 */
-.ed-hero-on .ed-hero-art {
-  display: block;
+/* 分层舞台：字层在下（透明底），冰层在上（正片叠底压在字上） */
+.ed-hero-on .ed-hero-stage {
+  position: relative;
   width: 100% !important;
-  max-width: none !important;
-  height: auto;
-  max-height: 100vh !important;
-  object-fit: cover;
-  object-position: center 42%;
+  max-width: 1500px !important;
+  aspect-ratio: 1400 / 820;
   margin: 0 auto;
+}
+/* 字层：铺满舞台，居中 */
+.ed-hero-on .ed-hero-type {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 84% !important;
+  height: auto;
+  margin: auto;
+  object-fit: contain;
+}
+/* 冰层：居中压在字上，略偏下；正片叠底让底下的字透出来 */
+.ed-hero-on .ed-hero-glass {
+  position: absolute;
+  left: 50%;
+  top: 53%;
+  transform: translate(-50%, -50%);
+  display: block;
+  width: 40.3% !important;
+  height: auto;
+  mix-blend-mode: multiply;
 }
 .hero:has(.ed-hero-on) {
   min-height: 100vh !important;
+  display: flex !important;
+  align-items: center !important;
 }
 .hero:has(.ed-hero-on) .hero-inner {
   min-height: 100vh !important;
-  justify-content: flex-start !important;
-  padding: 0 !important;
+  justify-content: center !important;
+  padding: 120px 0 20px !important;
 }
 
 /* 原 DOM 文字：保留给 SEO / 屏幕阅读器，视觉隐藏（大字已在图里） */
@@ -1456,7 +1476,10 @@ body::after {
 }
 
 @media (max-width: 640px) {
-  .ed-hero-on { padding: 24px 0 34px !important; }
+  .ed-hero-on { padding: 90px 0 34px !important; }
+  .ed-hero-on .ed-hero-stage { max-width: 100% !important; aspect-ratio: 1400 / 980; }
+  .ed-hero-on .ed-hero-type { width: 94% !important; }
+  .ed-hero-on .ed-hero-glass { width: 48% !important; top: 55%; }
   .ed-hero-on .ed-meta { font-size: 8px; margin-top: 18px; }
   .section { padding: 90px 0 !important; }
   .section-heading { margin-bottom: 48px !important; }

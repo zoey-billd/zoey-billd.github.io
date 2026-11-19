@@ -448,21 +448,35 @@
     document.body.appendChild(el);
   }
 
-  // —— 编辑式首屏：整张视觉图（衬线大字 + 玻璃折射，图内文字）+ 分层小字 ——
-  // 大字与玻璃一起渲染在图里（折射效果 Only AI 能做），原 DOM 文字改成 "Technical Artist"
-  // 但视觉隐藏（保留给 SEO / 屏幕阅读器）。只改首屏，内容区不动；幂等。
+  // —— 编辑式首屏：两个独立透明图层（衬线大字在下 + 玻璃方块在上，正片叠底） ——
+  // 字层 hero-type.png / 冰层 hero-glass.png 各自独立透明底，可单独替换调整。
+  // 原 DOM 文字改成 "Technical Artist" 但视觉隐藏（保留给 SEO / 屏幕阅读器）。
+  // 只改首屏，内容区不动；幂等。
   function buildEditorialHero() {
     var hero = document.querySelector(".hero-inner");
     if (!hero || hero.classList.contains("ed-hero-on")) return;
     hero.classList.add("ed-hero-on");
 
-    // 1) 整张首屏视觉图（Technical Artist + 玻璃折射）
-    if (!hero.querySelector(".ed-hero-art")) {
-      var art = document.createElement("img");
-      art.className = "ed-hero-art";
-      art.src = "./assets/hero-editorial.webp";
-      art.alt = "Technical Artist — editorial glass composition";
-      hero.insertBefore(art, hero.firstChild);
+    // 1) 分层舞台：字层在下，冰层在上（CSS 里冰层 mix-blend-mode: multiply）
+    if (!hero.querySelector(".ed-hero-stage")) {
+      var stage = document.createElement("div");
+      stage.className = "ed-hero-stage";
+
+      var type = document.createElement("img");
+      type.className = "ed-hero-type";
+      type.src = "./assets/hero-type.png";
+      type.alt = "Technical Artist";
+      type.setAttribute("aria-hidden", "true");
+
+      var glass = document.createElement("img");
+      glass.className = "ed-hero-glass";
+      glass.src = "./assets/hero-glass.png";
+      glass.alt = "";
+      glass.setAttribute("aria-hidden", "true");
+
+      stage.appendChild(type);
+      stage.appendChild(glass);
+      hero.insertBefore(stage, hero.firstChild);
     }
 
     // 2) 原文字：SEO/可访问性用 "Technical Artist"，视觉隐藏（大字已在图里）
