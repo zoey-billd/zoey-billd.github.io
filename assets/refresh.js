@@ -306,6 +306,7 @@
     removeResume();
     removeWeChat();
     injectCopyright();
+    buildEditorialHero();
   }
 
   if (document.readyState === "loading") {
@@ -327,6 +328,7 @@
       removeResume();
       removeWeChat();
       injectCopyright();
+      buildEditorialHero();
     } finally {
       observer.observe(document.body, { childList: true, subtree: true });
     }
@@ -437,6 +439,61 @@
       '<span>本站所有图像与程序化作品均为原创，未经书面授权请勿复制、转载或用于商业用途。</span>' +
       '</div>';
     document.body.appendChild(el);
+  }
+
+  // —— 编辑式首屏：衬线大字（真文字可控）+ 玻璃方块视觉焦点 + 分层小字 ——
+  // 只改首屏，内容区不动；幂等（observer 会反复触发）
+  function buildEditorialHero() {
+    var hero = document.querySelector(".hero-inner");
+    if (!hero || hero.classList.contains("ed-hero-on")) return;
+    hero.classList.add("ed-hero-on");
+
+    // 1) 玻璃方块图（CSS mask 羽化边缘，融入米白底）；仅首屏有
+    if (!hero.querySelector(".ed-glass")) {
+      var glass = document.createElement("img");
+      glass.className = "ed-glass";
+      glass.src = "./assets/glass-cube.webp";
+      glass.alt = "";
+      glass.setAttribute("aria-hidden", "true");
+      hero.insertBefore(glass, hero.firstChild);
+    }
+
+    // 2) 四角分层小字（编辑式排版的信息层级，克制的 2 条）
+    if (!hero.querySelector(".ed-meta")) {
+      var meta = document.createElement("div");
+      meta.className = "ed-meta";
+      meta.setAttribute("aria-hidden", "true");
+      meta.innerHTML =
+        '<span class="ed-meta-tl">SELECTED WORK / 2022—2026</span>' +
+        '<span class="ed-meta-tr">GUANGZHOU · CN</span>';
+      hero.appendChild(meta);
+    }
+
+    // 3) 顶部细蓝线（编辑式分隔）
+    if (!hero.querySelector(".ed-rule")) {
+      var rule = document.createElement("div");
+      rule.className = "ed-rule";
+      rule.setAttribute("aria-hidden", "true");
+      hero.appendChild(rule);
+    }
+
+    // 4) portfolio 便签（.hero 的子元素，与 inner 平级）：把 Bilibili 链接并进右下角信息行，原便签隐藏
+    var scope = hero.closest(".hero");
+    var scrap = scope && scope.querySelector(".hero-paper-scrap");
+    var meta = hero.querySelector(".ed-meta");
+    if (scrap && meta && !meta.querySelector(".ed-bili")) {
+      var bili = scrap.querySelector('a.scrap-link[href*="bilibili"]');
+      if (bili) {
+        var link = document.createElement("a");
+        link.className = "ed-bili";
+        link.href = bili.href;
+        link.target = "_blank";
+        link.rel = "noreferrer";
+        link.textContent = "BILIBILI ↗";
+        meta.appendChild(link);
+      }
+    }
+    if (scrap) scrap.style.display = "none";
   }
 
   // —— 低调的画作入口：藏在首页 hero 链接行里，点开才看得到 ——
