@@ -1308,7 +1308,7 @@ body::after {
 
 /* ============================================================
    编辑式首屏（editorial hero）—— 仅作用于 .ed-hero-on
-   米白纸底 + 衬线斜体大字 + 玻璃方块焦点 + 分层小字
+   整张视觉图（Technical Artist + 玻璃折射）+ 极简信息层
    内容区完全不受影响
    ============================================================ */
 .ed-hero-on {
@@ -1317,16 +1317,12 @@ body::after {
   --ed-blue: #1e3ea6;
   position: relative;
   isolation: isolate;
-  min-height: clamp(600px, 88vh, 940px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   background: var(--ed-cream) !important;
-  background-image: radial-gradient(circle at 78% 42%, rgba(30, 62, 166, 0.05), transparent 55%) !important;
   border-bottom: 1px solid rgba(30, 62, 166, 0.16);
-  overflow: hidden;
-  padding-top: 72px !important;
-  padding-bottom: 72px !important;
+  padding: 46px 0 60px !important;
 }
 
 /* 关掉旧的 ASCII 角标与拼贴残留，首屏保持干净 */
@@ -1336,38 +1332,56 @@ body::after {
   display: none !important;
 }
 
-/* 玻璃方块：右侧焦点，径向羽化融进米白底，不出现矩形边 */
-.ed-hero-on .ed-glass {
-  position: absolute;
-  z-index: -1;
-  top: 46%;
-  right: -4%;
-  width: clamp(460px, 56vw, 900px);
+/* 主视觉图：铺满容器宽度，米白底与页面无缝 */
+.ed-hero-on .ed-hero-art {
+  display: block;
+  width: 100%;
+  max-width: 1320px;
   height: auto;
-  transform: translateY(-50%);
-  pointer-events: none;
-  -webkit-mask-image: radial-gradient(ellipse 54% 52% at 52% 50%, #000 46%, transparent 78%);
-  mask-image: radial-gradient(ellipse 54% 52% at 52% 50%, #000 46%, transparent 78%);
-  opacity: 0.9;
+  margin: 0 auto;
 }
 
-/* 顶部细蓝线 */
-.ed-hero-on .ed-rule {
-  position: absolute;
-  top: 40px;
-  left: 5%;
-  right: 5%;
-  height: 1px;
-  background: linear-gradient(90deg, var(--ed-blue), rgba(30, 62, 166, 0.05));
-  opacity: 0.5;
+/* 原 DOM 文字：保留给 SEO / 屏幕阅读器，视觉隐藏（大字已在图里） */
+.ed-hero-on .ed-sr-only,
+.ed-hero-on h1,
+.ed-hero-on .eyebrow,
+.ed-hero-on .hero-copy {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
-/* 分层小字 */
+/* 按钮：图下方居中，深墨底利落感 */
+.ed-hero-on .hero-actions {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 20px !important;
+  margin-top: 22px !important;
+}
+.ed-hero-on .primary-action {
+  background: var(--ed-ink) !important;
+  color: var(--ed-cream) !important;
+  border-radius: 2px !important;
+  font-family: "Inter", "Noto Sans SC", sans-serif !important;
+  letter-spacing: 0.08em !important;
+}
+
+/* 底部信息行 */
 .ed-hero-on .ed-meta {
-  position: absolute;
-  left: 5%;
-  right: 5%;
-  bottom: 34px;
+  position: relative;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: 100%;
+  max-width: 1320px;
+  margin: 26px auto 0;
+  padding: 0 2px;
   display: flex;
   align-items: center;
   gap: 0;
@@ -1389,61 +1403,7 @@ body::after {
 }
 .ed-hero-on .ed-bili:hover { text-decoration: underline; }
 
-/* 大字：英文 Playfair Display 斜体，中文 Noto Serif SC 衬线 */
-.ed-hero-on h1 {
-  font-family: "Playfair Display", "Noto Serif SC", Georgia, serif !important;
-  font-style: italic;
-  font-weight: 700;
-  font-size: clamp(52px, 8.4vw, 128px) !important;
-  line-height: 0.98 !important;
-  letter-spacing: -0.02em !important;
-  color: var(--ed-ink) !important;
-  max-width: 15ch;
-  margin: 0 0 26px !important;
-}
-
-/* eyebrow：细体小字，字距拉开 */
-.ed-hero-on .eyebrow {
-  font-family: "Inter", "Noto Sans SC", sans-serif !important;
-  font-size: 11px !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.24em !important;
-  text-transform: uppercase;
-  color: var(--ed-blue) !important;
-  margin-bottom: 30px !important;
-}
-
-/* 副标题：中文衬线，克制字号 */
-.ed-hero-on .hero-copy {
-  font-family: "Noto Serif SC", Georgia, serif !important;
-  font-size: clamp(15px, 1.6vw, 19px) !important;
-  line-height: 1.7 !important;
-  color: rgba(20, 17, 13, 0.78) !important;
-  max-width: 46ch !important;
-}
-
-/* 主按钮：深墨底，编辑式利落感 */
-.ed-hero-on .primary-action {
-  background: var(--ed-ink) !important;
-  color: var(--ed-cream) !important;
-  border-radius: 2px !important;
-  font-family: "Inter", "Noto Sans SC", sans-serif !important;
-  letter-spacing: 0.08em !important;
-}
-
-@media (max-width: 900px) {
-  .ed-hero-on .ed-glass {
-    top: 60%;
-    right: -18%;
-    width: 88vw;
-    opacity: 0.5;
-  }
-  .ed-hero-on h1 { max-width: 100%; }
-}
-
 @media (max-width: 640px) {
-  .ed-hero-on { min-height: 560px; padding-top: 60px !important; }
-  .ed-hero-on .ed-glass { opacity: 0.32; top: 66%; }
-  .ed-hero-on .ed-meta { font-size: 8px; bottom: 22px; }
-  .ed-hero-on .ed-rule { top: 28px; }
+  .ed-hero-on { padding: 24px 0 34px !important; }
+  .ed-hero-on .ed-meta { font-size: 8px; margin-top: 18px; }
 }

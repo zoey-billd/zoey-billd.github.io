@@ -441,24 +441,32 @@
     document.body.appendChild(el);
   }
 
-  // —— 编辑式首屏：衬线大字（真文字可控）+ 玻璃方块视觉焦点 + 分层小字 ——
-  // 只改首屏，内容区不动；幂等（observer 会反复触发）
+  // —— 编辑式首屏：整张视觉图（衬线大字 + 玻璃折射，图内文字）+ 分层小字 ——
+  // 大字与玻璃一起渲染在图里（折射效果 Only AI 能做），原 DOM 文字改成 "Technical Artist"
+  // 但视觉隐藏（保留给 SEO / 屏幕阅读器）。只改首屏，内容区不动；幂等。
   function buildEditorialHero() {
     var hero = document.querySelector(".hero-inner");
     if (!hero || hero.classList.contains("ed-hero-on")) return;
     hero.classList.add("ed-hero-on");
 
-    // 1) 玻璃方块图（CSS mask 羽化边缘，融入米白底）；仅首屏有
-    if (!hero.querySelector(".ed-glass")) {
-      var glass = document.createElement("img");
-      glass.className = "ed-glass";
-      glass.src = "./assets/glass-cube.webp";
-      glass.alt = "";
-      glass.setAttribute("aria-hidden", "true");
-      hero.insertBefore(glass, hero.firstChild);
+    // 1) 整张首屏视觉图（Technical Artist + 玻璃折射）
+    if (!hero.querySelector(".ed-hero-art")) {
+      var art = document.createElement("img");
+      art.className = "ed-hero-art";
+      art.src = "./assets/hero-editorial.webp";
+      art.alt = "Technical Artist — editorial glass composition";
+      hero.insertBefore(art, hero.firstChild);
     }
 
-    // 2) 四角分层小字（编辑式排版的信息层级，克制的 2 条）
+    // 2) 原文字：SEO/可访问性用 "Technical Artist"，视觉隐藏（大字已在图里）
+    var h1 = hero.querySelector("h1");
+    if (h1) h1.textContent = "Technical Artist";
+    var eyebrow = hero.querySelector(".eyebrow");
+    var copy = hero.querySelector(".hero-copy");
+    if (eyebrow) eyebrow.textContent = "Technical Art Portfolio";
+    if (copy) copy.textContent = "谢昭莹 Zoey Xie — UE5 PCG / Houdini HDA / 编辑器工具。";
+
+    // 3) 四角分层小字
     if (!hero.querySelector(".ed-meta")) {
       var meta = document.createElement("div");
       meta.className = "ed-meta";
@@ -469,19 +477,11 @@
       hero.appendChild(meta);
     }
 
-    // 3) 顶部细蓝线（编辑式分隔）
-    if (!hero.querySelector(".ed-rule")) {
-      var rule = document.createElement("div");
-      rule.className = "ed-rule";
-      rule.setAttribute("aria-hidden", "true");
-      hero.appendChild(rule);
-    }
-
-    // 4) portfolio 便签（.hero 的子元素，与 inner 平级）：把 Bilibili 链接并进右下角信息行，原便签隐藏
+    // 4) portfolio 便签：把 Bilibili 链接并进右下角信息行，原便签隐藏
     var scope = hero.closest(".hero");
     var scrap = scope && scope.querySelector(".hero-paper-scrap");
-    var meta = hero.querySelector(".ed-meta");
-    if (scrap && meta && !meta.querySelector(".ed-bili")) {
+    var metaEl = hero.querySelector(".ed-meta");
+    if (scrap && metaEl && !metaEl.querySelector(".ed-bili")) {
       var bili = scrap.querySelector('a.scrap-link[href*="bilibili"]');
       if (bili) {
         var link = document.createElement("a");
@@ -490,7 +490,7 @@
         link.target = "_blank";
         link.rel = "noreferrer";
         link.textContent = "BILIBILI ↗";
-        meta.appendChild(link);
+        metaEl.appendChild(link);
       }
     }
     if (scrap) scrap.style.display = "none";
