@@ -302,7 +302,6 @@
     rewriteCapabilities();
     replaceFooterText();
     replaceModalIvyImage();
-    initCollage();
     injectOpenSource();
     removeResume();
     removeWeChat();
@@ -324,7 +323,6 @@
       rewriteCapabilities();
       replaceFooterText();
       replaceModalIvyImage();
-      initCollage();
       injectOpenSource();
       removeResume();
       removeWeChat();
@@ -587,7 +585,8 @@
   }
 
   function initGarnish() {
-    buildDecor();
+    // 简约模式：关闭星星/代码碎片/五线谱装饰层（保留函数体以便恢复）
+    // buildDecor();
   }
 
   if (document.readyState === "loading") {
