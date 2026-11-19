@@ -470,7 +470,7 @@
 
       var glass = document.createElement("img");
       glass.className = "ed-hero-glass";
-      glass.src = "./assets/hero-glass.png";
+      glass.src = "./assets/hero-frost-baked.png";
       glass.alt = "";
       glass.setAttribute("aria-hidden", "true");
 

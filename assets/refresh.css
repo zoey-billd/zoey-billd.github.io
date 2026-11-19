@@ -1358,16 +1358,15 @@ body::after {
   margin: auto;
   object-fit: contain;
 }
-/* 冰层：居中压在字上，略偏下；正片叠底让底下的字透出来 */
+/* 磨砂冰层：与舞台同尺寸的透明图层，内含「冰块区域被模糊的字影 + 磨砂玻璃」，
+   盖在清晰字层上 => 冰内字模糊(折射感)、冰外字清晰。不再依赖 backdrop-filter。 */
 .ed-hero-on .ed-hero-glass {
   position: absolute;
-  left: 50%;
-  top: 53%;
-  transform: translate(-50%, -50%);
+  inset: 0;
   display: block;
-  width: 40.3% !important;
-  height: auto;
-  mix-blend-mode: multiply;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
 }
 .hero:has(.ed-hero-on) {
   min-height: 100vh !important;
@@ -1476,10 +1475,9 @@ body::after {
 }
 
 @media (max-width: 640px) {
+  /* 舞台/字层比例必须与烘焙图层一致(1400:820, 字层84%居中)，这里只调外间距，不改内部比例 */
   .ed-hero-on { padding: 90px 0 34px !important; }
-  .ed-hero-on .ed-hero-stage { max-width: 100% !important; aspect-ratio: 1400 / 980; }
-  .ed-hero-on .ed-hero-type { width: 94% !important; }
-  .ed-hero-on .ed-hero-glass { width: 48% !important; top: 55%; }
+  .ed-hero-on .ed-hero-stage { max-width: 100% !important; }
   .ed-hero-on .ed-meta { font-size: 8px; margin-top: 18px; }
   .section { padding: 90px 0 !important; }
   .section-heading { margin-bottom: 48px !important; }
