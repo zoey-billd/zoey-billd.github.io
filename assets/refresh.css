@@ -1873,3 +1873,108 @@ a[href*="bilibili"] {
 .scribble,
 .ascii-watermark,
 .cmyk-bar { display: none !important; }
+
+/* ============================================================
+   v31 标注修改（2026-11-20）
+   ============================================================ */
+/* 1) 导航 Contact 按钮：去掉蓝色硬阴影 + icon/字体改黑 */
+.nav-contact,
+.nav-contact:focus,
+.nav-contact:hover,
+body .nav-contact {
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  text-shadow: none !important;
+  color: #111 !important;
+  background: #fafaf9 !important;
+  border: 1px solid rgba(0,0,0,.22) !important;
+}
+.nav-contact svg,
+.nav-contact svg * {
+  color: #111 !important;
+  stroke: #111 !important;
+  fill: none !important;
+}
+.nav-contact svg path[fill]:not([fill="none"]) { fill: #111 !important; }
+
+/* 2) 光标：蓝色四角星 -> 黑色像素鼠标箭头（CSS 光标，隐藏原跟随星） */
+.cinnamon-cursor,
+.cursor-dot,
+.cursor-ring,
+.snowflake-burst { display: none !important; }
+html, body, a, button, [role="button"] {
+  cursor: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M2 1 L2 19 L7 14 L11 22 L14 20 L10 13 L18 12 Z' fill='%23111' stroke='%23fff' stroke-width='1.2'/%3E%3C/svg%3E") 2 1, auto !important;
+}
+
+/* 3) 冰块轻微动效：缓慢上下浮动 + 微旋转（不影响字层对齐） */
+@keyframes edGlassFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%      { transform: translateY(-7px) rotate(0.4deg); }
+}
+.ed-hero-on .ed-hero-glass {
+  animation: edGlassFloat 7s ease-in-out infinite !important;
+  will-change: transform;
+}
+
+/* 4) 内容区背景：去掉平铺点阵图，改纯黑填充 */
+body {
+  background-color: #0b0b0b !important;
+  background-image: none !important;
+}
+
+/* 5) 深蓝星星装饰彻底隐藏（wc-star / collage 等） */
+.wc-star, .wc-frag, .webcore-decor, .collage-star, .collage-deco,
+[class*="star-deco"], [class*="Star"], [class*="deco-star"] { display: none !important; }
+
+/* 6) 联系区字体改纯白：eyebrow / 大标题 / 版权行 */
+body .contact-inner .eyebrow,
+body .contact-inner h2,
+body .contact-inner h2 *,
+.contact-inner h2 span,
+.zc-copyright-inner,
+.zc-copyright-inner span {
+  color: #ffffff !important;
+  text-shadow: none !important;
+}
+.zc-copyright { border-top-color: rgba(255,255,255,.18) !important; }
+
+/* —— 深蓝星星真身：cinnamon-watermark(550px固定水印) + snowflake-layer —— */
+.cinnamon-watermark,
+.cinnamon-watermark::before,
+.cinnamon-watermark::after,
+.snowflake-layer,
+.snowflake-layer * { display: none !important; visibility: hidden !important; }
+
+/* —— 详情页文字适配纯黑底（背景改黑的配套）：深色标题 -> 浅色 —— */
+.article-wrap,
+.article-hero h1,
+.article-hero h2,
+.article-body h3,
+.article-media-heading h3,
+.article-media-heading .eyebrow,
+.article-summary-panel h3,
+.back-link {
+  color: #eceae4 !important;
+  text-shadow: none !important;
+}
+.article-hero h2,
+.back-link { color: #b7b5ad !important; }
+/* 图库容器 + summary 面板 -> 深色卡片（黑底配套） */
+.article-media-gallery,
+.media-gallery-grid,
+.article-summary-panel,
+.media-gallery-item,
+.media-gallery-item .media-asset {
+  background: #141414 !important;
+  color: #eceae4 !important;
+  border-color: rgba(255,255,255,.12) !important;
+}
+.media-gallery-item figcaption,
+.article-media-heading p { color: #b7b5ad !important; }
+
+/* —— 详情页 hero 描述段落：兜底改浅（之前探测是浅色但截图偏深，提高优先级）—— */
+.article-title-block > p,
+.article-hero .article-title-block p {
+  color: #c8c6bf !important;
+  text-shadow: none !important;
+}

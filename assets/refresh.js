@@ -394,6 +394,8 @@
     removeCinnamor();
     injectCopyright();
     buildEditorialHero();
+    swapPcgHeroImage();
+    trimContactCopy();
   }
 
   if (document.readyState === "loading") {
@@ -419,6 +421,8 @@
       removeCinnamor();
       injectCopyright();
       buildEditorialHero();
+      swapPcgHeroImage();
+      trimContactCopy();
     } finally {
       observer.observe(document.body, { childList: true, subtree: true });
     }
@@ -534,6 +538,35 @@
       '<span>本站所有图像与程序化作品均为原创，未经书面授权请勿复制、转载或用于商业用途。</span>' +
       '</div>';
     document.body.appendChild(el);
+  }
+
+  // —— POD FOREST 详情页首图换成图库第 5 张（river-bend.png），幂等 ——
+  function swapPcgHeroImage() {
+    var hero = document.querySelector(".article-hero .project-preview-image");
+    if (!hero) return;
+    if (hero.getAttribute("data-pcg-hero-swapped") === "1") return;
+    hero.src = "./assets/pcg/river-bend.png";
+    hero.setAttribute("alt", "河流弯道密林 — PCG 团块散射形成的林缘层次");
+    hero.setAttribute("data-pcg-hero-swapped", "1");
+  }
+
+  // —— 联系区：删除框选的两段求职意向小字 + 大标题改中文（白色由 CSS 控制）——
+  function trimContactCopy() {
+    var inner = document.querySelector(".contact-inner");
+    if (!inner) return;
+    var ps = inner.querySelectorAll("p");
+    ps.forEach(function (p) {
+      var t = (p.textContent || "").trim();
+      if (t.indexOf("希望把程序化环境") >= 0 || t.indexOf("求职意向") >= 0) {
+        p.style.display = "none";
+      }
+    });
+    var h2 = inner.querySelector("h2");
+    if (h2) {
+      var CN_TITLE = "工具开发 / AI 美术管线 / 程序化生成 — 可立即到岗。";
+      if (h2.textContent.trim() !== CN_TITLE) h2.textContent = CN_TITLE;
+      h2.style.whiteSpace = "normal";
+    }
   }
 
   // —— 编辑式首屏：两个独立透明图层（衬线大字在下 + 玻璃方块在上，正片叠底） ——
