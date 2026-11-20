@@ -142,6 +142,90 @@
     });
   }
 
+  // —— 合并两张混凝土破坏类项目卡（Corner Weathering + Concrete Rigid） ——
+  function mergeDestructionCards() {
+    var grid = document.querySelector(".featured-project-grid, .project-grid");
+    if (!grid || grid.querySelector("[data-merged-destruction]")) return;
+    var corner = null, concrete = null;
+    grid.querySelectorAll(".project-card").forEach(function (c) {
+      var h = c.querySelector("h3");
+      if (!h) return;
+      var t = h.textContent.trim();
+      if (t.indexOf("Corner Weathering") !== -1) corner = c;
+      if (t.indexOf("Concrete Rigid") !== -1) concrete = c;
+    });
+    if (!corner || !concrete) return;
+
+    corner.setAttribute("data-merged-destruction", "1");
+    // 技术点合并
+    var cTech = corner.querySelector(".tech-list");
+    var rTech = concrete.querySelector(".tech-list");
+    if (cTech && rTech) {
+      rTech.querySelectorAll("li").forEach(function (li) { cTech.appendChild(li.cloneNode(true)); });
+    }
+    // media-strip 合并
+    var cStrip = corner.querySelector(".media-strip");
+    var rStrip = concrete.querySelector(".media-strip");
+    if (cStrip && rStrip) {
+      rStrip.querySelectorAll("span").forEach(function (s) { cStrip.appendChild(s.cloneNode(true)); });
+    }
+    // 标题 / 副标题 / 描述改写
+    var h3 = corner.querySelector("h3");
+    if (h3) h3.textContent = "Procedural Weathering & Rigid Destruction";
+    var h4 = corner.querySelector("h4");
+    if (h4) h4.textContent = "混凝土程序化风化与三态刚性破碎 · 参数化产出变体";
+    var desc = corner.querySelector(".project-content > p:not(.project-eyebrow)");
+    if (desc) {
+      desc.textContent =
+        "把混凝土角部风化与整盒刚性破碎封装成一套程序化工具：测地距离驱动风化时序、Voronoi 块状断口与球型 cutter 生成缺口、四层风蚀着色；同一套 VDB SDF + 坐标哈希把碎块分为缺口 / 裂开欲坠 / 保留三态，同一 seed 结果可复现。封装为 SOP HDA，美术只调参数不进节点网。";
+    }
+    var eyebrow = corner.querySelector(".project-eyebrow");
+    if (eyebrow) eyebrow.textContent = "Houdini 21 / VEX / Voronoi Fracture / VDB SDF / Karma XPU";
+    var frame = corner.querySelector(".media-frame-header span");
+    if (frame) frame.textContent = "PROCEDURAL DESTRUCTION";
+    var link = corner.querySelector(".project-card-link");
+    if (link) link.href = "#/projects/corner-weathering";
+    concrete.remove();
+  }
+
+  // —— 把 Industrial Ivy Generator 从 Technical Studies 提升到 Selected Projects ——
+  function promoteIvyToProjects() {
+    var grid = document.querySelector(".featured-project-grid, .project-grid");
+    var block = document.querySelector(".technical-studies-block");
+    if (!grid || !block || grid.querySelector("[data-ivy-promoted]")) return;
+    var ivy = null;
+    block.querySelectorAll(".technical-study-card").forEach(function (c) {
+      var h = c.querySelector("h3");
+      if (h && h.textContent.indexOf("Industrial Ivy") !== -1) ivy = c;
+    });
+    if (!ivy) return;
+
+    var art = document.createElement("article");
+    art.className = "project-card project-card-ivy";
+    art.setAttribute("data-reveal", "true");
+    art.setAttribute("data-ivy-promoted", "1");
+    art.innerHTML =
+      '<a class="project-card-link" href="#/projects/industrial-ivy-generator">' +
+      '<div class="project-media-wrap has-preview-image" aria-label="Industrial Ivy Generator media layout">' +
+      '<div class="media-frame-header"><span>IVY / VINE SYSTEM</span><span>03</span></div>' +
+      '<img class="project-preview-image" src="./assets/houdini/portfolio/ivy-statue-ue5.png" alt="Industrial Ivy Generator preview">' +
+      '<span class="media-watermark project-preview-watermark" aria-hidden="true">ZOEY XIE / PCG + TOOLS TA</span>' +
+      '<div class="media-strip"><span>Growth Mask</span><span>Vine Mesh</span><span>Leaf Instance</span><span>Wind Sway</span></div>' +
+      '</div>' +
+      '<div class="project-content">' +
+      '<p class="project-eyebrow">Houdini 21 / VEX / Alembic / UE5 Foliage</p>' +
+      '<h3>Industrial Ivy Generator</h3>' +
+      '<h4>建筑表面藤蔓生长 · 叶片实例与风摆属性</h4>' +
+      '<p>面向废弃建筑与工业场景的程序化藤蔓系统：表面生长掩码驱动藤蔓走向，闭合管状藤体配合叶片实例化铺设，输出风摆属性直接在 UE5 Foliage 中驱动；同一套掩码可复用于墙面、雕像与遗迹等不同载体。</p>' +
+      '<ul class="tech-list" aria-label="Industrial Ivy Generator technical points">' +
+      '<li>Surface Growth Mask</li><li>Closed Vine Mesh</li><li>Leaf Instancing</li><li>Wind Sway Attributes</li>' +
+      '</ul>' +
+      '<span class="read-project-link">Read project document</span>' +
+      '</div></a>';
+    grid.appendChild(art);
+    ivy.remove();
+  }
+
   // —— 拼贴装饰层：噪点 / 套准标记 / 星尘 / 半调条带 / 胶带贴纸 ——
   function initCollage() {
     if (document.querySelector(".collage-deco")) return;
@@ -302,6 +386,8 @@
     rewriteCapabilities();
     replaceFooterText();
     replaceModalIvyImage();
+    mergeDestructionCards();
+    promoteIvyToProjects();
     injectOpenSource();
     removeResume();
     removeWeChat();
@@ -325,6 +411,8 @@
       rewriteCapabilities();
       replaceFooterText();
       replaceModalIvyImage();
+      mergeDestructionCards();
+      promoteIvyToProjects();
       injectOpenSource();
       removeResume();
       removeWeChat();

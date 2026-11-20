@@ -1344,7 +1344,8 @@ body::after {
 .ed-hero-on .ed-hero-stage {
   position: relative;
   width: 100% !important;
-  max-width: 1500px !important;
+  /* 75% 视觉比例：stage 1084px，Tech 字宽约 865px，对齐参考图 */
+  max-width: 1084px !important;
   aspect-ratio: 1400 / 820;
   margin: 0 auto;
 }
@@ -1376,7 +1377,8 @@ body::after {
 .hero:has(.ed-hero-on) .hero-inner {
   min-height: 100vh !important;
   justify-content: center !important;
-  padding: 120px 0 20px !important;
+  /* padding-top 比 bottom 大 110px => 内容整体下移约 55px，复刻 75% 缩放的垂直位置 */
+  padding: 190px 0 80px !important;
 }
 
 /* 原 DOM 文字：保留给 SEO / 屏幕阅读器，视觉隐藏（大字已在图里） */
@@ -1662,3 +1664,212 @@ body .eyebrow {
   border-bottom-color: rgba(0, 0, 0, 0.12) !important;
   outline: none !important;
 }
+
+/* ============================================================
+   75% 视觉比例复刻（2026-11-20）
+   目标：把浏览器 zoom 75% 时的排版布局固定到 100% 缩放下
+   参考：1920x960 视口下导航条宽 ~990px、字宽 ~865px、按钮宽 ~110px
+   ============================================================ */
+/* 导航条：bundle 默认 min(1480,100vw-176) → 固定 ~1000px 复刻 75% 观感 */
+.nav-bar {
+  width: 1000px !important;
+  max-width: 1000px !important;
+}
+@media (max-width: 1100px) {
+  .nav-bar { width: calc(100vw - 48px) !important; max-width: none !important; }
+}
+/* 首屏 stage 已在上方设为 1084px；meta 收窄与导航对齐 */
+.ed-hero-on .ed-meta { max-width: 1000px !important; }
+
+/* ============================================================
+   内容区深色点阵背景 + 浅色字 + 去阴影（2026-11-20）
+   背景 _map_xface_cdlum.png：93% 深底 + 白色点阵地形
+   首屏 hero 保持米黄编辑式，本块只作用于 hero 以下的内容区
+   ============================================================ */
+body {
+  background: #2b2b2b !important;
+}
+/* 所有内容区 section：铺点阵图，固定背景随页面滚动 */
+body > #root section.section,
+section.section,
+.intro-section,
+.projects-section,
+.strengths-section,
+.contact-section,
+.section-inner,
+.article-shell {
+  background-color: #2b2b2b !important;
+  background-image: url("./bg/map-dot-matrix.png") !important;
+  background-repeat: repeat !important;
+  background-size: 800px 800px !important;
+  background-attachment: fixed !important;
+}
+/* hero 例外：保持米黄，不铺背景图 */
+.hero,
+.hero:has(.ed-hero-on),
+.hero-inner,
+.hero:has(.ed-hero-on) .hero-inner {
+  background: #e8dcc8 !important;
+  background-image: none !important;
+}
+/* 内容区所有文字 → 浅色（标题近白、正文浅灰） */
+section.section h1,
+section.section h2,
+section.section h3,
+section.section h4,
+section.section p,
+section.section li,
+section.section span,
+section.section a,
+.section-inner p,
+.contact-inner p,
+.intro-grid p,
+.project-card p,
+.strength-card p {
+  color: #eceae4 !important;
+  text-shadow: none !important;
+}
+/* eyebrow / 小字标签：稍暗的浅灰，仍可读 */
+.eyebrow,
+.section-ascii,
+.project-eyebrow,
+.technical-study-tech,
+.tech-list li,
+.media-strip,
+.media-strip span,
+.oss-tags,
+.scrap-kicker {
+  color: #b7b5ad !important;
+  text-shadow: none !important;
+}
+/* 正文段落略降对比，避免全白太冲 */
+.section-inner p,
+.contact-inner p,
+.intro-grid p,
+.project-card p,
+.strength-card p,
+.tech-list li {
+  color: #c8c6bf !important;
+}
+/* 卡片：深色半透明底 + 浅边，配浅色字 */
+.project-card,
+.technical-study-card,
+.strength-card,
+.technical-studies-block,
+.article-shell,
+.oss-card,
+.project-media-wrap,
+.media-gallery-item {
+  background: rgba(20, 20, 20, 0.82) !important;
+  border-color: rgba(255, 255, 255, 0.13) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45) !important;
+}
+.project-card:hover,
+.technical-study-card:hover,
+.strength-card:hover {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6) !important;
+}
+/* 媒体条 / 帧头：深色 */
+.media-frame-header,
+.media-strip {
+  background: rgba(10, 10, 10, 0.9) !important;
+  color: #cfcdc5 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+/* 联系区 / 导航：深色适配（导航保留白底浅字反差，避免和深色内容区糊一起） */
+.contact-inner a,
+.contact-strip a,
+.skill-ribbon a,
+.read-project-link {
+  color: #e8e6df !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+.zc-copyright {
+  background: #1c1c1c !important;
+  color: #a8a6a0 !important;
+}
+
+/* —— 全站去文字阴影（用户 2026-11-20 要求：所有带阴影字体改成不带阴影） —— */
+h1, h2, h3, h4, h5, h6,
+.eyebrow,
+.section-heading,
+.eyebrow *,
+.section-heading *,
+.hero-copy,
+.project-card h3,
+.project-card h4,
+.technical-study-title h3,
+.scrap-kicker,
+.footer h2 {
+  text-shadow: none !important;
+}
+
+/* —— 补漏：Selected Projects 的 eyebrow/h2 被旧灰白块 body section h2 压成深色 —— */
+body section h2,
+body .section-heading h2,
+body .section-heading > div h2,
+body .eyebrow {
+  color: #eceae4 !important;
+}
+/* hero 内的 eyebrow/h1 例外（视觉隐藏，不影响） */
+.hero .eyebrow { color: rgba(20,17,13,.5) !important; }
+
+/* —— 背景铺法修正：整页连续背景，去掉每 section 重复 + fixed 导致的碎裂感 —— */
+body {
+  background-color: #2b2b2b !important;
+  background-image: url("./bg/map-dot-matrix.png") !important;
+  background-repeat: repeat !important;
+  background-size: 800px 800px !important;
+  background-attachment: scroll !important;
+}
+body > #root section.section,
+section.section,
+.intro-section,
+.projects-section,
+.strengths-section,
+.contact-section,
+.section-inner,
+.article-shell {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+/* 内容区加一层半透明遮罩，让浅字在白点阵上更清楚（用 section 内 ::before 不行会挡点击，改用 box-shadow inset 覆盖） */
+.hero,
+.hero:has(.ed-hero-on),
+.hero-inner,
+.hero:has(.ed-hero-on) .hero-inner {
+  background-color: #e8dcc8 !important;
+  background-image: none !important;
+}
+
+/* —— 背景改为暗化版点阵图（0.42 亮度），让浅色正文可读 —— */
+body {
+  background-image: url("./bg/map-dot-matrix-dim.png") !important;
+  background-size: 900px 900px !important;
+}
+
+/* —— 清理残留装饰深蓝星星 + 按钮样式适配深色 —— */
+.webcore-decor,
+.wc-star,
+.wc-frag,
+.wc-thanks,
+.collage-deco { display: none !important; }
+.contact-strip a,
+a[href*="foxmail"],
+a[href*="bilibili"] {
+  background: rgba(255,255,255,0.08) !important;
+  color: #eceae4 !important;
+  border: 1px solid rgba(255,255,255,0.18) !important;
+  border-radius: 2px !important;
+}
+
+/* 残留深蓝星星（collage-star 直接在 body，不在 collage-deco 容器内） */
+.collage-star,
+.collage-grain,
+.reg-mark,
+.side-text,
+.halftone,
+.tape,
+.scribble,
+.ascii-watermark,
+.cmyk-bar { display: none !important; }
