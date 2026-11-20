@@ -2007,3 +2007,53 @@ body {
   background-position: top center !important;
   background-attachment: scroll !important;
 }
+
+/* ============================================================
+   v33 标注修正（2026-11-20 第三轮）
+   ============================================================ */
+/* 1) 首屏「View Selected Work」按钮删除 */
+.ed-hero-on .hero-actions .primary-action,
+.ed-hero-on .hero-actions .secondary-action { display: none !important; }
+
+/* 2) 内容区改回全黑背景（放弃点阵图，hero 首屏保持米黄） */
+body {
+  background-color: #000 !important;
+  background-image: none !important;
+  background-size: auto !important;
+  background-position: top left !important;
+}
+
+/* 3) Selected Projects 标题块向左对齐：取消 eyebrow 右侧列，标题+ASCII 落到容器左侧 */
+.projects-section .section-heading {
+  grid-template-columns: 1fr !important;
+  gap: 16px !important;
+}
+
+/* 4) 米黄呼应：内容区大标题 / eyebrow / ASCII / 亮点行 用首屏米黄色系 */
+section.section h2,
+.section-heading h2,
+.intro-section h2,
+.strengths-section h2 {
+  color: #e8dcc8 !important;
+}
+/* 联系区大标题保持 v31 的纯白 */
+body .contact-inner h2 { color: #ffffff !important; }
+body .eyebrow,
+body .section-heading .eyebrow { color: #c9b998 !important; }
+.section-ascii { color: #b3a685 !important; }
+/* 卡片底部亮点行 + 详情页亮点行：蓝色 -> 米黄（icon 与文字同色继承） */
+.project-impact,
+.article-impact,
+.project-impact span,
+.article-impact span,
+.project-impact svg,
+.project-impact svg *,
+.article-impact svg,
+.article-impact svg * {
+  color: #e3d3a8 !important;
+  stroke: #e3d3a8 !important;
+}
+.project-impact svg path[fill]:not([fill="none"]),
+.article-impact svg path[fill]:not([fill="none"]) { fill: #e3d3a8 !important; }
+/* 详情页 hero eyebrow 也呼应米黄 */
+.article-hero .eyebrow { color: #c9b998 !important; }

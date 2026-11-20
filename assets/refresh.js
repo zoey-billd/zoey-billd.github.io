@@ -546,14 +546,23 @@
     document.body.appendChild(el);
   }
 
-  // —— POD FOREST 详情页首图换成图库第 5 张（river-bend.png），幂等 ——
+  // —— POD FOREST 详情页首图换成 river-bend.png（仅限 PCG Forest 详情页），幂等 ——
   function swapPcgHeroImage() {
-    // 详情页首图 + 项目卡封面，都换成 river-bend（河流弯道密林）
+    // 详情页首图：先核验当前文章标题，只有 PCG Forest 才换 ——
+    // 其他项目（Corner Weathering / Undead Emporium / Industrial Ivy）保留各自模块封面
     var hero = document.querySelector(".article-hero .project-preview-image");
-    if (hero && hero.getAttribute("data-pcg-hero-swapped") !== "1") {
-      hero.src = "./assets/pcg/river-bend.png";
-      hero.setAttribute("alt", "河流弯道密林 — PCG 团块散射形成的林缘层次");
-      hero.setAttribute("data-pcg-hero-swapped", "1");
+    if (hero && hero.getAttribute("data-pcg-hero-swapped") !== "1" &&
+        hero.getAttribute("data-pcg-hero-swapped") !== "skip") {
+      var h1 = document.querySelector(".article-hero h1, .article-title-block h1");
+      var isPcg = !!(h1 && h1.textContent.indexOf("PCG Forest") !== -1);
+      if (isPcg) {
+        hero.src = "./assets/pcg/river-bend.png";
+        hero.setAttribute("alt", "河流弯道密林 — PCG 团块散射形成的林缘层次");
+        hero.setAttribute("data-pcg-hero-swapped", "1");
+      } else {
+        // 非 PCG 页打标记防止反复探测
+        hero.setAttribute("data-pcg-hero-swapped", "skip");
+      }
     }
     document.querySelectorAll(".project-card").forEach(function (card) {
       var h = card.querySelector("h3");
