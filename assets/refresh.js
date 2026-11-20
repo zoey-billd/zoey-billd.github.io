@@ -639,7 +639,7 @@
       meta.className = "ed-meta";
       meta.setAttribute("aria-hidden", "true");
       meta.innerHTML =
-        '<span class="ed-meta-tl">SELECTED WORK / 2022—2026</span>' +
+        '<span class="ed-meta-tl">SELECTED WORK / 2025—2026</span>' +
         '<span class="ed-meta-tr">GUANGZHOU · CN</span>';
       hero.appendChild(meta);
     }
