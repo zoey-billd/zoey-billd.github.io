@@ -190,19 +190,23 @@
 
   // —— 把 Industrial Ivy Generator 从 Technical Studies 提升到 Selected Projects ——
   function promoteIvyToProjects() {
+    // 自愈式：不依赖 technical-studies-block 存在（React 重渲染后源卡可能已不在），
+    // 只要 grid 里没有藤蔓卡就重新注入；注入时直接带 is-revealed —— bundle 的
+    // reveal observer 只对页面加载时已存在的 [data-reveal] 注册，注入卡不加
+    // is-revealed 会永远 opacity:0（用户看到的"第二行黑屏"就是这个）。
     var grid = document.querySelector(".featured-project-grid, .project-grid");
+    if (!grid || grid.querySelector("[data-ivy-promoted]")) return;
     var block = document.querySelector(".technical-studies-block");
-    if (!grid || !block || grid.querySelector("[data-ivy-promoted]")) return;
     var ivy = null;
-    block.querySelectorAll(".technical-study-card").forEach(function (c) {
-      var h = c.querySelector("h3");
-      if (h && h.textContent.indexOf("Industrial Ivy") !== -1) ivy = c;
-    });
-    if (!ivy) return;
+    if (block) {
+      block.querySelectorAll(".technical-study-card").forEach(function (c) {
+        var h = c.querySelector("h3");
+        if (h && h.textContent.indexOf("Industrial Ivy") !== -1) ivy = c;
+      });
+    }
 
     var art = document.createElement("article");
-    art.className = "project-card project-card-ivy";
-    art.setAttribute("data-reveal", "true");
+    art.className = "project-card project-card-ivy is-revealed";
     art.setAttribute("data-ivy-promoted", "1");
     art.innerHTML =
       '<a class="project-card-link" href="#/projects/industrial-ivy-generator">' +
@@ -223,7 +227,7 @@
       '<span class="read-project-link">Read project document</span>' +
       '</div></a>';
     grid.appendChild(art);
-    ivy.remove();
+    if (ivy) ivy.remove();
   }
 
   // —— 拼贴装饰层：噪点 / 套准标记 / 星尘 / 半调条带 / 胶带贴纸 ——
@@ -394,6 +398,7 @@
     removeCinnamor();
     injectCopyright();
     buildEditorialHero();
+    initGlassParallax();
     swapPcgHeroImage();
     trimContactCopy();
   }
@@ -421,6 +426,7 @@
       removeCinnamor();
       injectCopyright();
       buildEditorialHero();
+      initGlassParallax();
       swapPcgHeroImage();
       trimContactCopy();
     } finally {
@@ -542,12 +548,22 @@
 
   // —— POD FOREST 详情页首图换成图库第 5 张（river-bend.png），幂等 ——
   function swapPcgHeroImage() {
+    // 详情页首图 + 项目卡封面，都换成 river-bend（河流弯道密林）
     var hero = document.querySelector(".article-hero .project-preview-image");
-    if (!hero) return;
-    if (hero.getAttribute("data-pcg-hero-swapped") === "1") return;
-    hero.src = "./assets/pcg/river-bend.png";
-    hero.setAttribute("alt", "河流弯道密林 — PCG 团块散射形成的林缘层次");
-    hero.setAttribute("data-pcg-hero-swapped", "1");
+    if (hero && hero.getAttribute("data-pcg-hero-swapped") !== "1") {
+      hero.src = "./assets/pcg/river-bend.png";
+      hero.setAttribute("alt", "河流弯道密林 — PCG 团块散射形成的林缘层次");
+      hero.setAttribute("data-pcg-hero-swapped", "1");
+    }
+    document.querySelectorAll(".project-card").forEach(function (card) {
+      var h = card.querySelector("h3");
+      var img = card.querySelector("img.project-preview-image");
+      if (h && img && h.textContent.indexOf("PCG Forest") !== -1 &&
+          img.getAttribute("data-pcg-card-swapped") !== "1") {
+        img.src = "./assets/pcg/river-bend.png";
+        img.setAttribute("data-pcg-card-swapped", "1");
+      }
+    });
   }
 
   // —— 联系区：删除框选的两段求职意向小字 + 大标题改中文（白色由 CSS 控制）——
@@ -563,7 +579,7 @@
     });
     var h2 = inner.querySelector("h2");
     if (h2) {
-      var CN_TITLE = "工具开发 / AI 美术管线 / 程序化生成 — 可立即到岗。";
+      var CN_TITLE = "工具开发 / AI 美术管线 / 程序化生成。";
       if (h2.textContent.trim() !== CN_TITLE) h2.textContent = CN_TITLE;
       h2.style.whiteSpace = "normal";
     }
@@ -636,6 +652,26 @@
       }
     }
     if (scrap) scrap.style.display = "none";
+  }
+
+  // —— 冰块鼠标交互：mousemove 视差 —— 冰块（含烘焙在内的折射字影）整体轻微
+  //    跟随鼠标偏移，玻璃外清晰字不动，接缝错位正好呈现"折射角度变化"的观感。
+  //    mouseleave 回弹。幂等（parallaxBound 标记）。
+  function initGlassParallax() {
+    var hero = document.querySelector(".hero");
+    var glass = hero && hero.querySelector(".ed-hero-glass");
+    if (!hero || !glass || glass.dataset.parallaxBound) return;
+    glass.dataset.parallaxBound = "1";
+    hero.addEventListener("mousemove", function (e) {
+      var r = hero.getBoundingClientRect();
+      var dx = (e.clientX - r.left) / r.width - 0.5;
+      var dy = (e.clientY - r.top) / r.height - 0.5;
+      glass.style.transform =
+        "translate3d(" + (dx * 16).toFixed(1) + "px," + (dy * 12).toFixed(1) + "px,0)";
+    });
+    hero.addEventListener("mouseleave", function () {
+      glass.style.transform = "";
+    });
   }
 
   // —— 低调的画作入口：藏在首页 hero 链接行里，点开才看得到 ——

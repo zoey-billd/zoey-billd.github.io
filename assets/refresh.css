@@ -1978,3 +1978,32 @@ body .contact-inner h2 *,
   color: #c8c6bf !important;
   text-shadow: none !important;
 }
+
+/* ============================================================
+   v32 标注修正（2026-11-20 第二轮）
+   ============================================================ */
+/* 1) 冰块交互：去掉自动浮动，改为鼠标视差（JS 控制 transform）+ hover 提亮 */
+.ed-hero-on .ed-hero-glass {
+  animation: none !important;
+  transition: filter .4s ease, transform .25s ease-out !important;
+  will-change: transform;
+}
+.ed-hero-on .ed-hero-glass:hover { filter: brightness(1.07) !important; }
+
+/* 2) 藤蔓卡可见性兜底：注入卡拿不到 bundle 的 is-revealed 时机也会显示 */
+.project-card-ivy {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* 3) 背景改回点阵地图图：宽度 100% 自适应拉伸、顶部对齐、不重复，
+      页面比图长时用黑色延伸（body 底色黑） */
+body {
+  background-color: #000 !important;
+  background-image: url("./bg/map-dot-matrix.png") !important;
+  background-repeat: no-repeat !important;
+  background-size: 100% auto !important;
+  background-position: top center !important;
+  background-attachment: scroll !important;
+}
