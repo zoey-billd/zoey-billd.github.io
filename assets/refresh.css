@@ -1348,21 +1348,6 @@ body::after {
   aspect-ratio: 1400 / 820;
   margin: 0 auto;
 }
-/* 淡蓝细弧线：绕在冰块下方的椭圆弧，唯一撞色元素 */
-.ed-hero-on .ed-hero-arc {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  pointer-events: none;
-}
-.ed-hero-on .ed-hero-arc path {
-  fill: none;
-  stroke: #6d8dc4;
-  stroke-width: 1.15;
-  opacity: 0.62;
-}
 /* 字层：铺满舞台，居中 */
 .ed-hero-on .ed-hero-type {
   position: absolute;
@@ -1418,10 +1403,10 @@ body::after {
   margin-top: 22px !important;
 }
 .ed-hero-on .primary-action {
-  background: var(--ed-ink) !important;
-  color: var(--ed-cream) !important;
-  border: 1px solid #7c96c4 !important;
-  box-shadow: 0 0 0 3px rgba(124, 150, 196, 0.16) !important;
+  background: #1a1a1a !important;
+  color: #f5f4f1 !important;
+  border: 1px solid #1a1a1a !important;
+  box-shadow: none !important;
   border-radius: 2px !important;
   font-family: "Inter", "Noto Sans SC", sans-serif !important;
   letter-spacing: 0.08em !important;
@@ -1448,9 +1433,9 @@ body::after {
   text-transform: uppercase;
 }
 .ed-hero-on .ed-meta-tl { margin-right: auto; }
-.ed-hero-on .ed-meta-tr { color: #7c96c4; }
+.ed-hero-on .ed-meta-tr { color: rgba(20, 17, 13, 0.5); }
 .ed-hero-on .ed-bili {
-  color: #6d88b8 !important;
+  color: #14110d !important;
   font-weight: 600 !important;
   letter-spacing: 0.14em !important;
   text-decoration: none;
@@ -1498,4 +1483,182 @@ body::after {
   .ed-hero-on .ed-meta { font-size: 8px; margin-top: 18px; }
   .section { padding: 90px 0 !important; }
   .section-heading { margin-bottom: 48px !important; }
+}
+
+/* ============================================================
+   灰白简约主题（GREY-WHITE MINIMAL）—— 整站去蓝
+   2026-11-20：重定义 :root 变量 + 覆盖残留硬编码蓝，作用于全站
+   hero 首屏由 .ed-hero-on 保持米黄+墨黑（编辑式排版），内容区走灰白
+   ============================================================ */
+/* 页面根：所有由变量驱动的蓝 -> 中性灰白 */
+:root {
+  --paper: #f4f4f2 !important;
+  --paper-sheet: #fafaf9 !important;
+  --paper-deep: #e6e6e3 !important;
+  --ink: #1f1f1e !important;
+  --muted: #6f6f6b !important;
+  --line: rgba(0, 0, 0, 0.09) !important;
+  --white: rgba(255, 255, 255, 0.72) !important;
+  --green: #4a4a47 !important;
+  --blue: #3a3a38 !important;
+  --rust: #555550 !important;
+  --gold: #6a6a64 !important;
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.08) !important;
+}
+/* body / 全站底色去蓝（bundle 里 body 有蓝渐变网格） */
+body {
+  background: #f4f4f2 !important;
+  color: #1f1f1e !important;
+}
+body:before { display: none !important; }
+
+/* 导航栏：白底 + 灰字 + 中性边框 */
+.nav-bar {
+  background: rgba(250, 250, 249, 0.94) !important;
+  border-color: rgba(0, 0, 0, 0.09) !important;
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.07) !important;
+}
+.brand-mark {
+  color: #1f1f1e !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+.nav-links { color: rgba(31, 31, 30, 0.6) !important; }
+.nav-contact {
+  color: #1f1f1e !important;
+  background: #fafaf9 !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+/* hero 内残留蓝（非首屏编辑式覆盖的部分：media / 便签 / ascii 等已隐藏，保险起见一并中性化） */
+.hero-media,
+.hero-paper-scrap,
+.hero-ascii,
+.ascii-meta,
+.ascii-title,
+.ascii-title:before,
+.ascii-title:after,
+.hero-copy,
+.secondary-action {
+  background-color: transparent !important;
+  color: #4a4a47 !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+.primary-action,
+.hero .primary-action {
+  background: #1a1a1a !important;
+  color: #f5f4f1 !important;
+  border-color: #1a1a1a !important;
+}
+
+/* 内容区板块：去掉蓝渐变网格线，改浅灰 */
+.intro-section,
+.projects-section,
+.strengths-section,
+.contact-section,
+section.section {
+  background: #f4f4f2 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+.intro-section:before,
+.projects-section:before,
+.strengths-section:before,
+.contact-inner:before {
+  background: rgba(0, 0, 0, 0.06) !important;
+  box-shadow: none !important;
+}
+/* 板块标题蓝 -> 墨黑（仅内容区，不动首屏 h1） */
+.section-heading h2,
+.section-heading h1,
+.section-heading .eyebrow,
+.intro-section h2,
+.projects-section h2,
+.strengths-section h2,
+.contact-section h2,
+.contact-inner h2 {
+  color: #1f1f1e !important;
+}
+.eyebrow,
+.section-ascii,
+.scrap-kicker,
+.media-strip,
+.media-strip span,
+.media-stage small,
+.project-eyebrow,
+.technical-study-tech,
+.oss-tags {
+  color: #6f6f6b !important;
+}
+/* 正文蓝 -> 灰 */
+.section-inner p,
+.contact-inner p,
+.intro-grid p,
+.project-card p,
+.strength-card p,
+.hero-copy {
+  color: #5f5f5b !important;
+}
+
+/* 卡片：白底 + 浅灰边 + 中性阴影 */
+.project-card,
+.technical-study-card,
+.strength-card,
+.technical-studies-block,
+.article-shell {
+  background: #fafaf9 !important;
+  border-color: rgba(0, 0, 0, 0.09) !important;
+  box-shadow: 6px 7px 22px rgba(0, 0, 0, 0.06) !important;
+}
+.project-card.is-revealed:hover,
+.technical-study-card.is-revealed:hover,
+.strength-card.is-revealed:hover,
+.hero-paper-scrap:hover {
+  box-shadow: 8px 10px 30px rgba(0, 0, 0, 0.1) !important;
+}
+.project-media-wrap,
+.project-media-wrap.has-preview-image,
+.media-gallery-item,
+.article-media-gallery {
+  background-color: #ececea !important;
+  background-image: none !important;
+}
+.media-frame-header,
+.media-strip,
+.project-note-link,
+.article-bottom-back {
+  color: #4a4a47 !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+.media-watermark { opacity: 0.5 !important; }
+
+/* 联系区邮箱标签：白底灰边 */
+.contact-inner a,
+.contact-strip a,
+.skill-ribbon a,
+.oss-card {
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  color: #2a2a28 !important;
+}
+/* 其余残留蓝字兜底：链接 hover 蓝色 -> 深灰 */
+a:hover { color: #111 !important; }
+
+/* —— 残留蓝兜底（提高优先级，覆盖 bundle 更具体的规则） —— */
+body section h2,
+body .section-heading h2,
+body .intro-copy h2,
+body .section-heading > div h2 {
+  color: #1f1f1e !important;
+}
+body .eyebrow {
+  color: #6f6f6b !important;
+}
+/* Contact 按钮蓝下边框 */
+.nav-contact,
+.nav-contact:focus,
+.nav-contact:hover {
+  border-bottom-color: rgba(0, 0, 0, 0.12) !important;
+  outline: none !important;
 }

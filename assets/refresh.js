@@ -457,22 +457,10 @@
     if (!hero || hero.classList.contains("ed-hero-on")) return;
     hero.classList.add("ed-hero-on");
 
-    // 1) 分层舞台：淡蓝细弧线(底) -> 字层 -> 磨砂冰层(顶)
+    // 1) 分层舞台：字层在下 -> 磨砂冰层在上（灰白简约，无弧线）
     if (!hero.querySelector(".ed-hero-stage")) {
       var stage = document.createElement("div");
       stage.className = "ed-hero-stage";
-
-      // 淡蓝细弧线：绕在冰块下方的大椭圆弧，作为唯一撞色元素
-      var svgNS = "http://www.w3.org/2000/svg";
-      var arc = document.createElementNS(svgNS, "svg");
-      arc.setAttribute("class", "ed-hero-arc");
-      arc.setAttribute("viewBox", "0 0 1400 820");
-      arc.setAttribute("preserveAspectRatio", "none");
-      arc.setAttribute("aria-hidden", "true");
-      var arcPath = document.createElementNS(svgNS, "path");
-      arcPath.setAttribute("d", "M 40 520 C 250 880, 1150 880, 1360 520");
-      arc.appendChild(arcPath);
-      stage.appendChild(arc);
 
       var type = document.createElement("img");
       type.className = "ed-hero-type";
