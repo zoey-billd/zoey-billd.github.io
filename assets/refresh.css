@@ -2057,3 +2057,17 @@ body .section-heading .eyebrow { color: #c9b998 !important; }
 .article-impact svg path[fill]:not([fill="none"]) { fill: #e3d3a8 !important; }
 /* 详情页 hero eyebrow 也呼应米黄 */
 .article-hero .eyebrow { color: #c9b998 !important; }
+
+/* ============================================================
+   v35 修正（2026-11-20）
+   ============================================================ */
+/* 详情页 article-section 浅灰卡片里的蓝色列表字 -> 黑色 */
+.article-section li,
+.article-section li span,
+.article-section li a,
+.article-section p,
+.article-sections li,
+.article-sections li span {
+  color: #111 !important;
+}
+/* Tripothon 探索层两张图由 JS 移除（见 refresh.js removeTripothonGalleryImages） */

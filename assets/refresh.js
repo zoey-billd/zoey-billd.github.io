@@ -401,6 +401,7 @@
     initGlassParallax();
     swapPcgHeroImage();
     trimContactCopy();
+    removeTripothonGalleryImages();
   }
 
   if (document.readyState === "loading") {
@@ -429,6 +430,7 @@
       initGlassParallax();
       swapPcgHeroImage();
       trimContactCopy();
+      removeTripothonGalleryImages();
     } finally {
       observer.observe(document.body, { childList: true, subtree: true });
     }
@@ -573,6 +575,21 @@
         img.setAttribute("data-pcg-card-swapped", "1");
       }
     });
+  }
+
+  // —— 删除 Tripothon 详情页「探索层」那两张图（背包编成 / 网格寻宝）——
+  // 截图红框标的两张：探索层首行两张。按 figcaption 关键词删，幂等；
+  // React 重渲染后 observer 再次触发时会重新删除。
+  function removeTripothonGalleryImages() {
+    var h1 = document.querySelector(".article-hero h1, .article-title-block h1");
+    if (!h1 || h1.textContent.indexOf("Undead Emporium") === -1) return;
+    document.querySelectorAll(".media-gallery-item").forEach(function (fig) {
+      var cap = fig.querySelector("figcaption");
+      if (!cap) return;
+      var t = cap.textContent || "";
+      if (t.indexOf("探索层") !== -1) fig.remove();
+    });
+    // 只剩一张图时网格可能仍按两列排，让它自然铺满即可
   }
 
   // —— 联系区：删除框选的两段求职意向小字 + 大标题改中文（白色由 CSS 控制）——
